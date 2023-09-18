@@ -2,7 +2,7 @@ using Human.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Human.Infrastructure.Persistance.Configurations;
+namespace Human.Infrastructure.Persistence.Configurations;
 
 public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 {
