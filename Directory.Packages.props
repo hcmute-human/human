@@ -1,0 +1,53 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="FastEndpoints" Version="5.17.1.1" />
+    <PackageVersion Include="FastEndpoints.Security" Version="5.17.1.1" />
+    <PackageVersion Include="FastEndpoints.Swagger" Version="5.17.1.1" />
+    <PackageVersion Include="NodaTime" Version="3.1.9" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="7.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageVersion>
+    <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="7.0.10" />
+    <PackageVersion Include="Riok.Mapperly" Version="3.1.0" />
+    <PackageVersion Include="Bogus" Version="34.0.2" />
+    <PackageVersion Include="CloudinaryDotNet" Version="1.22.0" />
+    <PackageVersion Include="SystemTextJsonPatch" Version="3.0.1" />
+    <PackageVersion Include="Nito.AsyncEx" Version="5.1.2" />
+    <PackageVersion Include="System.Text.Json" Version="7.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageVersion>
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.5.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageVersion>
+    <PackageVersion Include="Roslynator.CodeAnalysis.Analyzers" Version="4.5.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageVersion>
+    <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.5.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageVersion>
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.10.0.77988">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageVersion>
+  </ItemGroup>
+</Project>
