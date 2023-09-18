@@ -14,7 +14,8 @@ public static class ServiceCollectionExtensions
 #if DEBUG
                 .EnableSensitiveDataLogging()
 #endif
-                .EnableDetailedErrors();
+                .EnableDetailedErrors()
+                .UseModel(Human.Infrastructure.Persistence.CompiledModels.AppDbContextModel.Instance);
         });
         return self;
     }
