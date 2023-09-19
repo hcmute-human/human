@@ -4,7 +4,7 @@ using NodaTime;
 
 #nullable disable
 
-namespace Human.Web.Migrations
+namespace Human.Http.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration

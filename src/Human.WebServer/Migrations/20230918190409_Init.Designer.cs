@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Human.Web.Migrations
+namespace Human.Http.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20230918190409_Init")]
