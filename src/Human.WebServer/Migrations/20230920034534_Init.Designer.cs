@@ -10,10 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Human.Http.Migrations
+namespace Human.WebServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230918190409_Init")]
+    [Migration("20230920034534_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -56,7 +56,7 @@ namespace Human.Http.Migrations
 
                     b.HasIndex("Email");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
