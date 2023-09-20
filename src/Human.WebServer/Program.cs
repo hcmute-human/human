@@ -2,9 +2,8 @@ using System.Reflection;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Human.Core.Models;
-using Human.WebServer.Grpc.Services;
 
-namespace Human.Http;
+namespace Human.WebServer;
 
 public static class Program
 {
@@ -20,13 +19,8 @@ public static class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseFastEndpoints(x =>
-        {
-            x.Errors.UseProblemDetails();
-            x.Errors.ProducesMetadataType = typeof(ProblemDetails);
-        });
+        app.UseFastEndpoints(x => x.Errors.UseProblemDetails());
 
-        app.MapGrpcService<GreeterService>();
         if (app.Environment.IsDevelopment())
         {
             app.MapGrpcReflectionService();
@@ -37,8 +31,6 @@ public static class Program
 
     private static void Configure(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddGrpc();
-        services.AddGrpcReflection();
         services.AddProblemDetails();
         services.AddFastEndpoints(x =>
         {
