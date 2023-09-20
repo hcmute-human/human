@@ -10,14 +10,11 @@
   <ItemGroup>
     <PackageReference Include="FastEndpoints" />
     <PackageReference Include="FastEndpoints.Security" />
-    <PackageReference Include="Grpc.AspNetCore" />
-    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Human.Infrastructure\Human.Infrastructure.csproj" />
-    <ProjectReference Include="..\Human.WebServer.Grpc\Human.WebServer.Grpc.csproj" />
     <ProjectReference Include="..\Human.WebServer.Api.V1\Human.WebServer.Api.V1.csproj" />
   </ItemGroup>
 
