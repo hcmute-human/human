@@ -2,6 +2,7 @@ using FastEndpoints;
 using FastEndpoints.Security;
 using Microsoft.Extensions.Options;
 using Human.Core.Models;
+using Human.Core.Interfaces;
 
 namespace Human.Core.Services;
 

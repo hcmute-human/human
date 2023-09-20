@@ -1,6 +1,6 @@
 using FastEndpoints;
 
-namespace Human.Core.Services;
+namespace Human.Core.Interfaces;
 
 public interface IJwtBearerService
 {
