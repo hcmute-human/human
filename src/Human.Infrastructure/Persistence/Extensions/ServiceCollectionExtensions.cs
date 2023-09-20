@@ -1,6 +1,7 @@
 using Human.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Human.Core.Models;
+using Human.Core.Interfaces;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +18,7 @@ public static class ServiceCollectionExtensions
                 .EnableDetailedErrors()
                 .UseModel(Human.Infrastructure.Persistence.CompiledModels.AppDbContextModel.Instance);
         });
+        self.AddScoped<IAppDbContext>(x => x.GetRequiredService<AppDbContext>());
         return self;
     }
 }
