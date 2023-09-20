@@ -20,12 +20,6 @@ public static class Program
         app.UseAuthorization();
 
         app.UseFastEndpoints(x => x.Errors.UseProblemDetails());
-
-        if (app.Environment.IsDevelopment())
-        {
-            app.MapGrpcReflectionService();
-        }
-
         app.Run();
     }
 
