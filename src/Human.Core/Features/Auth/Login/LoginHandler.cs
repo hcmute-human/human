@@ -26,13 +26,17 @@ public sealed class LoginHandler : ICommandHandler<LoginCommand, Result<LoginRes
             .ConfigureAwait(false);
         if (user is null)
         {
-            return Result.Fail("Login credentials is not correct").WithCode("USER_NOT_FOUND")
+            return Result.Fail("Login credentials is not correct")
+                .WithName(nameof(command.Email))
+                .WithCode("user_not_found")
                 .WithStatus(HttpStatusCode.Unauthorized);
         }
 
         if (!BCrypt.Net.BCrypt.EnhancedVerify(command.Password, user.PasswordHash))
         {
-            return Result.Fail("Login credentials is not correct").WithCode("WRONG_CREDENTIALS")
+            return Result.Fail("Login credentials is not correct")
+                .WithName(nameof(command.Password))
+                .WithCode("wrong_credentials")
                 .WithStatus(HttpStatusCode.Unauthorized);
         }
 
