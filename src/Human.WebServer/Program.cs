@@ -31,7 +31,8 @@ public static class Program
             x.DisableAutoDiscovery = true;
             x.Assemblies = new[]
             {
-                Assembly.Load("Human.WebServer.Api.V1")
+                Assembly.Load("Human.Core"),
+                Assembly.Load("Human.WebServer.Api.V1"),
             };
         });
         var bearerSection = configuration.GetRequiredSection(BearerOptions.Section);
