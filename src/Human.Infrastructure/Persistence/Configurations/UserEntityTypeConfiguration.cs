@@ -18,5 +18,12 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.HasIndex(x => x.Email);
 
         builder.Property(x => x.PasswordHash).HasMaxLength(61).IsRequired();
+
+        builder.HasData(new User
+        {
+            Id = Guid.NewGuid(),
+            Email = "admin@gmail.com",
+            PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("admin")
+        });
     }
 }

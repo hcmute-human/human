@@ -7,7 +7,7 @@ using NodaTime;
 namespace Human.WebServer.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,6 +26,11 @@ namespace Human.WebServer.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "PasswordHash" },
+                values: new object[] { new Guid("ec2a7974-812a-489d-8446-cab52d7bc38f"), "user@gmail.com", "$2a$11$b3I2W5IviMCltsgGDhM/YuLxKgflS7W53QRJFDcHD5cDdng6elWY2" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",

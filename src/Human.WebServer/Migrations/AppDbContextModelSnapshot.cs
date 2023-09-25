@@ -54,6 +54,16 @@ namespace Human.WebServer.Migrations
                     b.HasIndex("Email");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ec2a7974-812a-489d-8446-cab52d7bc38f"),
+                            CreationTime = NodaTime.Instant.FromUnixTimeTicks(0L),
+                            Email = "user@gmail.com",
+                            PasswordHash = "$2a$11$b3I2W5IviMCltsgGDhM/YuLxKgflS7W53QRJFDcHD5cDdng6elWY2",
+                            UpdatingTime = NodaTime.Instant.FromUnixTimeTicks(0L)
+                        });
                 });
 #pragma warning restore 612, 618
         }
