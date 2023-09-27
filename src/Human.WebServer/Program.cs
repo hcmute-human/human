@@ -1,7 +1,13 @@
+using System.Net.Mail;
 using System.Reflection;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Human.Core.Models;
+using Human.Infrastructure.Models;
+using Human.Infrastructure.Services;
+using MailKit;
+using Microsoft.Extensions.Options;
+using MimeKit;
 
 namespace Human.WebServer;
 
@@ -19,7 +25,13 @@ public static class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseFastEndpoints(x => x.Errors.UseProblemDetails());
+        app.UseFastEndpoints(x =>
+        {
+            var options = app.Services.GetRequiredService<IOptions<ApiOptions>>().Value;
+            x.Errors.UseProblemDetails();
+            x.Endpoints.RoutePrefix = options.RoutePrefix;
+        });
+
         app.Run();
     }
 
@@ -35,6 +47,13 @@ public static class Program
                 Assembly.Load("Human.WebServer.Api.V1"),
             };
         });
+
+        services
+            .AddOptions<ApiOptions>()
+            .BindConfiguration(ApiOptions.Section)
+            .ValidateOnStart()
+            .ValidateDataAnnotations();
+
         var bearerSection = configuration.GetRequiredSection(BearerOptions.Section);
         var bearerOptions = bearerSection.Get<BearerOptions>()!;
         services
@@ -56,13 +75,19 @@ public static class Program
             });
         services.AddAuthorization();
 
-        var persistenceSection = configuration.GetRequiredSection(PersistenceOptions.Section);
-        services.AddOptions<PersistenceOptions>()
-            .Bind(persistenceSection)
+        services
+            .AddOptions<PersistenceOptions>()
+            .BindConfiguration(PersistenceOptions.Section)
+            .ValidateOnStart()
+            .ValidateDataAnnotations();
+
+        services
+            .AddOptions<SmtpOptions>()
+            .BindConfiguration(SmtpOptions.Section)
             .ValidateOnStart()
             .ValidateDataAnnotations();
 
         services.AddCore();
-        services.AddPersistence(persistenceSection.Get<PersistenceOptions>()!);
+        services.AddInfrastructure();
     }
 }
