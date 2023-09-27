@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Human.WebServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230925151731_InitialCreate")]
+    [Migration("20230927042442_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -54,19 +54,51 @@ namespace Human.WebServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email");
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ec2a7974-812a-489d-8446-cab52d7bc38f"),
+                            Id = new Guid("a06116ce-c51e-46fa-9bf6-b051b24d5923"),
                             CreationTime = NodaTime.Instant.FromUnixTimeTicks(0L),
-                            Email = "user@gmail.com",
-                            PasswordHash = "$2a$11$b3I2W5IviMCltsgGDhM/YuLxKgflS7W53QRJFDcHD5cDdng6elWY2",
+                            Email = "admin@gmail.com",
+                            PasswordHash = "$2a$11$DEMCG1S/FXoo95W./kiU3OafZp91zbbNQEt3y4D2O/WUSJlwKFbCe",
                             UpdatingTime = NodaTime.Instant.FromUnixTimeTicks(0L)
                         });
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.UserPasswordResetToken", b =>
+                {
+                    b.Property<string>("Token")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text");
+
+                    b.Property<Instant>("ExpirationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Token");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserPasswordResetTokens");
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.UserPasswordResetToken", b =>
+                {
+                    b.HasOne("Human.Domain.Models.User", "User")
+                        .WithOne()
+                        .HasForeignKey("Human.Domain.Models.UserPasswordResetToken", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

@@ -27,20 +27,49 @@ namespace Human.WebServer.Migrations
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserPasswordResetTokens",
+                columns: table => new
+                {
+                    Token = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExpirationTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPasswordResetTokens", x => x.Token);
+                    table.ForeignKey(
+                        name: "FK_UserPasswordResetTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash" },
-                values: new object[] { new Guid("ec2a7974-812a-489d-8446-cab52d7bc38f"), "user@gmail.com", "$2a$11$b3I2W5IviMCltsgGDhM/YuLxKgflS7W53QRJFDcHD5cDdng6elWY2" });
+                values: new object[] { new Guid("a06116ce-c51e-46fa-9bf6-b051b24d5923"), "admin@gmail.com", "$2a$11$DEMCG1S/FXoo95W./kiU3OafZp91zbbNQEt3y4D2O/WUSJlwKFbCe" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPasswordResetTokens_UserId",
+                table: "UserPasswordResetTokens",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
                 table: "Users",
-                column: "Email");
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "UserPasswordResetTokens");
+
             migrationBuilder.DropTable(
                 name: "Users");
         }
