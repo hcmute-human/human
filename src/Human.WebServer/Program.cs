@@ -1,13 +1,9 @@
-using System.Net.Mail;
 using System.Reflection;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Human.Core.Models;
 using Human.Infrastructure.Models;
-using Human.Infrastructure.Services;
-using MailKit;
 using Microsoft.Extensions.Options;
-using MimeKit;
 
 namespace Human.WebServer;
 

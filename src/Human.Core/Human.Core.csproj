@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="FluentResults" />
     <PackageReference Include="BCrypt.Net-Next" />
+    <PackageReference Include="MailKit" />
   </ItemGroup>
 
   <ItemGroup>
