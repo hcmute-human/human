@@ -7,6 +7,7 @@ namespace Human.Infrastructure.Persistence;
 public class AppDbContext : DbContext, IAppDbContext
 {
     public DbSet<User> Users => Set<User>();
+    public DbSet<UserPasswordResetToken> UserPasswordResetTokens => Set<UserPasswordResetToken>();
 
     public AppDbContext(DbContextOptions options) : base(options) { }
 
