@@ -11,7 +11,6 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection self)
     {
-        self.AddScoped<ISmtpClient, GmailSmtpClient>();
         self.AddDbContextPool<AppDbContext>((provider, builder) =>
         {
             var options = provider.GetRequiredService<IOptions<PersistenceOptions>>().Value;
@@ -26,6 +25,7 @@ public static class ServiceCollectionExtensions
                 .UseModel(Human.Infrastructure.Persistence.CompiledModels.AppDbContextModel.Instance);
         });
         self.AddScoped<IAppDbContext>(x => x.GetRequiredService<AppDbContext>());
+        self.AddSingleton<ISmtpService, GmailSmtpService>();
         return self;
     }
 }

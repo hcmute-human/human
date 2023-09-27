@@ -3,14 +3,15 @@ using Human.Infrastructure.Models;
 using MailKit.Security;
 using MimeKit;
 using Microsoft.Extensions.Options;
+using Human.Core.Interfaces;
 
 namespace Human.Infrastructure.Services;
 
-public class GmailSmtpClient : ISmtpClient
+public class GmailSmtpService : ISmtpService
 {
     private readonly SmtpOptions options;
 
-    public GmailSmtpClient(IOptions<SmtpOptions> options)
+    public GmailSmtpService(IOptions<SmtpOptions> options)
     {
         this.options = options.Value;
     }

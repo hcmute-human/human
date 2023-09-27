@@ -1,8 +1,8 @@
 using MimeKit;
 
-namespace Human.Infrastructure.Services;
+namespace Human.Core.Interfaces;
 
-public interface ISmtpClient
+public interface ISmtpService
 {
     Task SendAsync(Action<MimeMessage> configure, CancellationToken ct = default);
 }
