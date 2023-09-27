@@ -15,7 +15,7 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.UpdatingTime).ValueGeneratedOnAdd().HasDefaultValueSql("current_timestamp");
 
         builder.Property(x => x.Email).HasMaxLength(261).IsRequired();
-        builder.HasIndex(x => x.Email);
+        builder.HasIndex(x => x.Email).IsUnique();
 
         builder.Property(x => x.PasswordHash).HasMaxLength(61).IsRequired();
 
