@@ -16,7 +16,7 @@ public class GmailSmtpService : ISmtpService
         this.options = options.Value;
     }
 
-    public async Task SendAsync(Action<MimeMessage> configure, CancellationToken ct = default)
+    public async Task<MimeMessage> SendAsync(Action<MimeMessage> configure, CancellationToken ct = default)
     {
         var task = ConnectAsync(ct).ConfigureAwait(false);
         var message = new MimeMessage();
@@ -25,6 +25,7 @@ public class GmailSmtpService : ISmtpService
         using var client = await task;
         await client.SendAsync(message, ct).ConfigureAwait(false);
         await client.DisconnectAsync(true, ct).ConfigureAwait(false);
+        return message;
     }
 
     private async Task<SmtpClient> ConnectAsync(CancellationToken ct = default)

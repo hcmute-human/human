@@ -4,5 +4,5 @@ namespace Human.Core.Interfaces;
 
 public interface ISmtpService
 {
-    Task SendAsync(Action<MimeMessage> configure, CancellationToken ct = default);
+    Task<MimeMessage> SendAsync(Action<MimeMessage> configure, CancellationToken ct = default);
 }
