@@ -4,6 +4,8 @@ using FastEndpoints.Security;
 using Human.Core.Models;
 using Human.Infrastructure.Models;
 using Microsoft.Extensions.Options;
+using RazorLight;
+using RazorLight.Extensions;
 
 namespace Human.WebServer;
 
@@ -70,6 +72,19 @@ public static class Program
                 options.ValidAudiences = bearerOptions.ValidAudiences;
             });
         services.AddAuthorization();
+
+        var resourceSection = configuration.GetRequiredSection(ResourceOptions.Section);
+        var resourceOptions = resourceSection.Get<ResourceOptions>()!;
+        services.AddRazorLight(() => new RazorLightEngineBuilder()
+            .UseEmbeddedResourcesProject(Assembly.Load(resourceOptions.EmailTemplate.AssemblyName),
+                resourceOptions.EmailTemplate.RootNamespace)
+            .UseMemoryCachingProvider()
+            .Build());
+        services
+            .AddOptions<ResourceOptions>()
+            .Bind(resourceSection)
+            .ValidateOnStart()
+            .ValidateDataAnnotations();
 
         services
             .AddOptions<PersistenceOptions>()
