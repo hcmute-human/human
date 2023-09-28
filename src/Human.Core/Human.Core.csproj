@@ -13,10 +13,17 @@
     <PackageReference Include="FluentResults" />
     <PackageReference Include="BCrypt.Net-Next" />
     <PackageReference Include="MailKit" />
+    <PackageReference Include="RazorLight" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources/EmailTemplates/*.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Human.Domain\Human.Domain.csproj" />
   </ItemGroup>
+
+
 
 </Project>
