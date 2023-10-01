@@ -3,14 +3,14 @@ using FluentValidation;
 using Human.Core.Features.Auth.CreatePasswordResetToken;
 using Riok.Mapperly.Abstractions;
 
-namespace Human.WebServer.Api.V1.Auth.ResetPassword;
+namespace Human.WebServer.Api.V1.Auth.CreatePasswordResetToken;
 
-internal sealed class ResetPasswordRequest
+internal sealed class CreatePasswordResetTokenRequest
 {
     public required string Email { get; set; }
 }
 
-internal sealed class Validator : Validator<ResetPasswordRequest>
+internal sealed class Validator : Validator<CreatePasswordResetTokenRequest>
 {
     public Validator()
     {
@@ -23,5 +23,5 @@ internal sealed class Validator : Validator<ResetPasswordRequest>
 [Mapper]
 internal static partial class RequestMapper
 {
-    public static partial CreatePasswordResetTokenCommand ToCommand(this ResetPasswordRequest request);
+    public static partial CreatePasswordResetTokenCommand ToCommand(this CreatePasswordResetTokenRequest createPasswordResetTokenRequest);
 }
