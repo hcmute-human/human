@@ -3,10 +3,7 @@ using Riok.Mapperly.Abstractions;
 
 namespace Human.WebServer.Api.V1.Auth.ResetPassword;
 
-internal sealed class ResetPasswordResponse
-{
-    public required string Token { get; set; }
-}
+internal sealed class ResetPasswordResponse { }
 
 [Mapper]
 internal static partial class ResponseMapper

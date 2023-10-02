@@ -7,7 +7,7 @@ namespace Human.WebServer.Api.V1.Auth.ResetPassword;
 
 internal sealed class ResetPasswordRequest
 {
-    public required string Token { get; set; }
+    public string Token { get; set; } = null!;
     public required string Password { get; set; }
 }
 
