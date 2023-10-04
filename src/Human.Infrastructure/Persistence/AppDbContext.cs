@@ -8,6 +8,7 @@ public class AppDbContext : DbContext, IAppDbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<UserPasswordResetToken> UserPasswordResetTokens => Set<UserPasswordResetToken>();
+    public DbSet<UserPermission> UserPermissions => Set<UserPermission>();
 
     public AppDbContext(DbContextOptions options) : base(options) { }
 

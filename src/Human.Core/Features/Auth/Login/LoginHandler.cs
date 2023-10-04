@@ -40,11 +40,20 @@ public sealed class LoginHandler : ICommandHandler<LoginCommand, Result<LoginRes
                 .WithStatus(HttpStatusCode.Unauthorized);
         }
 
+        var permissions = await dbContext.UserPermissions
+            .Where(x => x.User.Id == user.Id)
+            .Select(x => x.Permission)
+            .ToArrayAsync()
+            .ConfigureAwait(false);
 
         return new LoginResult
         {
             AccessToken = jwtBearerService.Sign(
-                privileges => privileges.Claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())),
+                privileges =>
+                {
+                    privileges.Claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+                    privileges.Permissions.AddRange(permissions);
+                },
                 expireAt: DateTimeOffset.UtcNow.AddMinutes(5).UtcDateTime),
             RefreshToken = Guid.NewGuid().ToString()
         };
