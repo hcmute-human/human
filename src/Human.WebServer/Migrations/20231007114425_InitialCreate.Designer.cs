@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Human.WebServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230927042442_InitialCreate")]
+    [Migration("20231007114425_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -62,10 +62,10 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a06116ce-c51e-46fa-9bf6-b051b24d5923"),
+                            Id = new Guid("1e0e515a-89a5-4c64-8e46-4f4b205152e2"),
                             CreationTime = NodaTime.Instant.FromUnixTimeTicks(0L),
                             Email = "admin@gmail.com",
-                            PasswordHash = "$2a$11$DEMCG1S/FXoo95W./kiU3OafZp91zbbNQEt3y4D2O/WUSJlwKFbCe",
+                            PasswordHash = "$2a$11$lPeb4b1JjmkmQEceZPlmHe0AYxIHl.jeKMUu81kVTqtgzdwmm/K0y",
                             UpdatingTime = NodaTime.Instant.FromUnixTimeTicks(0L)
                         });
                 });
@@ -90,11 +90,43 @@ namespace Human.WebServer.Migrations
                     b.ToTable("UserPasswordResetTokens");
                 });
 
+            modelBuilder.Entity("Human.Domain.Models.UserPermission", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Permission")
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.HasKey("UserId", "Permission");
+
+                    b.ToTable("UserPermissions");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("1e0e515a-89a5-4c64-8e46-4f4b205152e2"),
+                            Permission = "create_user"
+                        });
+                });
+
             modelBuilder.Entity("Human.Domain.Models.UserPasswordResetToken", b =>
                 {
                     b.HasOne("Human.Domain.Models.User", "User")
                         .WithOne()
                         .HasForeignKey("Human.Domain.Models.UserPasswordResetToken", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.UserPermission", b =>
+                {
+                    b.HasOne("Human.Domain.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
