@@ -15,11 +15,14 @@ namespace Human.Infrastructure.Persistence.CompiledModels
         {
             var user = UserEntityType.Create(this);
             var userPasswordResetToken = UserPasswordResetTokenEntityType.Create(this);
+            var userPermission = UserPermissionEntityType.Create(this);
 
             UserPasswordResetTokenEntityType.CreateForeignKey1(userPasswordResetToken, user);
+            UserPermissionEntityType.CreateForeignKey1(userPermission, user);
 
             UserEntityType.CreateAnnotations(user);
             UserPasswordResetTokenEntityType.CreateAnnotations(userPasswordResetToken);
+            UserPermissionEntityType.CreateAnnotations(userPermission);
 
             AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
             AddAnnotation("ProductVersion", "7.0.11");

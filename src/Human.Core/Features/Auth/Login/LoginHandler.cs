@@ -26,7 +26,7 @@ public sealed class LoginHandler : ICommandHandler<LoginCommand, Result<LoginRes
             .ConfigureAwait(false);
         if (user is null)
         {
-            return Result.Fail("Login credentials is not correct")
+            return Result.Fail("Login credentials is incorrect")
                 .WithName(nameof(command.Email))
                 .WithCode("user_not_found")
                 .WithStatus(HttpStatusCode.Unauthorized);
@@ -34,26 +34,16 @@ public sealed class LoginHandler : ICommandHandler<LoginCommand, Result<LoginRes
 
         if (!BCrypt.Net.BCrypt.EnhancedVerify(command.Password, user.PasswordHash))
         {
-            return Result.Fail("Login credentials is not correct")
+            return Result.Fail("Login credentials is incorrect")
                 .WithName(nameof(command.Password))
                 .WithCode("wrong_credentials")
                 .WithStatus(HttpStatusCode.Unauthorized);
         }
 
-        var permissions = await dbContext.UserPermissions
-            .Where(x => x.User.Id == user.Id)
-            .Select(x => x.Permission)
-            .ToArrayAsync()
-            .ConfigureAwait(false);
-
         return new LoginResult
         {
             AccessToken = jwtBearerService.Sign(
-                privileges =>
-                {
-                    privileges.Claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-                    privileges.Permissions.AddRange(permissions);
-                },
+                privileges => privileges.Claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())),
                 expireAt: DateTimeOffset.UtcNow.AddMinutes(5).UtcDateTime),
             RefreshToken = Guid.NewGuid().ToString()
         };
