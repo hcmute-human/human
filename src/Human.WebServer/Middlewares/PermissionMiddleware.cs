@@ -18,6 +18,12 @@ public sealed class PermissionMiddleware
 
     public async Task InvokeAsync(HttpContext context, AppDbContext dbContext)
     {
+        if (!context.User.Identity?.IsAuthenticated ?? true)
+        {
+            await next(context);
+            return;
+        }
+
         var id = context.User.ClaimValue(ClaimTypes.NameIdentifier);
         if (id is null || !Guid.TryParseExact(id, "D", out var guid))
         {
