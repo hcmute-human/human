@@ -1,4 +1,5 @@
 using Human.Core.Interfaces;
+using Human.Domain.Constants;
 using Human.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,7 @@ public class AppDbContext : DbContext, IAppDbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<UserPasswordResetToken> UserPasswordResetTokens => Set<UserPasswordResetToken>();
+    public DbSet<UserPermission> UserPermissions => Set<UserPermission>();
 
     public AppDbContext(DbContextOptions options) : base(options) { }
 
@@ -15,5 +17,18 @@ public class AppDbContext : DbContext, IAppDbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            Email = "admin@gmail.com",
+            PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("admin")
+        };
+        modelBuilder.Entity<User>().HasData(user);
+        modelBuilder.Entity<UserPermission>().HasData(new
+        {
+            UserId = user.Id,
+            Permission = Permit.CreateUser
+        });
     }
 }

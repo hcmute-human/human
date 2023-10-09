@@ -8,8 +8,9 @@ public interface IAppDbContext
 {
     DbSet<User> Users { get; }
     DbSet<UserPasswordResetToken> UserPasswordResetTokens { get; }
+    DbSet<UserPermission> UserPermissions { get; }
     EntityEntry Attach(object entity);
     EntityEntry Add(object entity);
     EntityEntry Update(object entity);
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

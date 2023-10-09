@@ -3,6 +3,7 @@ using FastEndpoints;
 using FastEndpoints.Security;
 using Human.Core.Models;
 using Human.Infrastructure.Models;
+using Human.WebServer.Middlewares;
 using Microsoft.Extensions.Options;
 using RazorLight;
 using RazorLight.Extensions;
@@ -21,6 +22,7 @@ public static class Program
         app.UseProblemDetailsExceptionHandler();
         app.UseStatusCodePages();
         app.UseAuthentication();
+        app.UseMiddleware<PermissionMiddleware>();
         app.UseAuthorization();
 
         app.UseFastEndpoints(x =>
