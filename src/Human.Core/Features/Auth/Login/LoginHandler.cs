@@ -3,7 +3,9 @@ using System.Security.Claims;
 using FastEndpoints;
 using FluentResults;
 using Human.Core.Interfaces;
+using Human.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using NodaTime;
 
 namespace Human.Core.Features.Auth.Login;
 
@@ -21,7 +23,7 @@ public sealed class LoginHandler : ICommandHandler<LoginCommand, Result<LoginRes
     public async Task<Result<LoginResult>> ExecuteAsync(LoginCommand command, CancellationToken ct)
     {
         var user = await dbContext.Users.Where(x => x.Email == command.Email)
-            .Select(x => new { x.Id, x.PasswordHash })
+            .Select(x => new User() { Id = x.Id, PasswordHash = x.PasswordHash })
             .FirstOrDefaultAsync(cancellationToken: ct)
             .ConfigureAwait(false);
         if (user is null)
@@ -40,12 +42,22 @@ public sealed class LoginHandler : ICommandHandler<LoginCommand, Result<LoginRes
                 .WithStatus(HttpStatusCode.Unauthorized);
         }
 
+        var refreshToken = Guid.NewGuid();
+        dbContext.Attach(user);
+        dbContext.Add(new UserRefreshToken
+        {
+            User = user,
+            ExpiryTime = SystemClock.Instance.GetCurrentInstant() + Duration.FromDays(30),
+            Token = refreshToken
+        });
+        await dbContext.SaveChangesAsync(ct).ConfigureAwait(false);
+
         return new LoginResult
         {
             AccessToken = jwtBearerService.Sign(
                 privileges => privileges.Claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())),
                 expireAt: DateTimeOffset.UtcNow.AddMinutes(5).UtcDateTime),
-            RefreshToken = Guid.NewGuid().ToString()
+            RefreshToken = refreshToken.ToString()
         };
     }
 }
