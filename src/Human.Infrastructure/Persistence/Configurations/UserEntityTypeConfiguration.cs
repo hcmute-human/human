@@ -11,8 +11,8 @@ public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Id).IsRequired().ValueGeneratedOnAdd();
         builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.CreationTime).ValueGeneratedOnAdd().HasDefaultValueSql("current_timestamp");
-        builder.Property(x => x.UpdatingTime).ValueGeneratedOnAdd().HasDefaultValueSql("current_timestamp");
+        builder.Property(x => x.CreatedTime).ValueGeneratedOnAdd().HasDefaultValueSql("current_timestamp");
+        builder.Property(x => x.UpdatedTime).ValueGeneratedOnAdd().HasDefaultValueSql("current_timestamp");
 
         builder.Property(x => x.Email).HasMaxLength(261).IsRequired();
         builder.HasIndex(x => x.Email).IsUnique();
