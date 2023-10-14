@@ -9,6 +9,7 @@ public interface IAppDbContext
     DbSet<User> Users { get; }
     DbSet<UserPasswordResetToken> UserPasswordResetTokens { get; }
     DbSet<UserPermission> UserPermissions { get; }
+    DbSet<UserRefreshToken> UserRefreshTokens { get; }
     EntityEntry Attach(object entity);
     EntityEntry Add(object entity);
     EntityEntry Update(object entity);
