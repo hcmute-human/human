@@ -4,7 +4,10 @@ using FastEndpoints.Security;
 using Human.Core.Models;
 using Human.Infrastructure.Models;
 using Human.WebServer.Middlewares;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Options;
+using NodaTime;
+using NodaTime.Serialization.SystemTextJson;
 using RazorLight;
 using RazorLight.Extensions;
 
@@ -37,6 +40,7 @@ public static class Program
 
     private static void Configure(IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<JsonOptions>(x => x.SerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
         services.AddProblemDetails();
         services.AddFastEndpoints(x =>
         {
