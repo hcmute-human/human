@@ -36,6 +36,9 @@ public sealed class RefreshHandler : ICommandHandler<RefreshCommand, Result<Refr
 
         if (SystemClock.Instance.GetCurrentInstant() > refreshToken.ExpiryTime)
         {
+            await dbContext.UserRefreshTokens.Where(x => x.User.Id == refreshToken.UserId && x.Token == command.RefreshToken)
+                .ExecuteDeleteAsync(ct)
+                .ConfigureAwait(false);
             return Result.Fail("Refresh token has been expired")
                 .WithName(nameof(command.RefreshToken))
                 .WithCode("refresh_token_expired")
