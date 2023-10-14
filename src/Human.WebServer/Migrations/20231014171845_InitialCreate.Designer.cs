@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Human.WebServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231007114425_InitialCreate")]
+    [Migration("20231014171845_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -26,13 +26,39 @@ namespace Human.WebServer.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Human.Domain.Models.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Instant>("CreatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("current_timestamp");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<Instant>("UpdatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("current_timestamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("Human.Domain.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Instant>("CreationTime")
+                    b.Property<Instant>("CreatedTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("current_timestamp");
@@ -47,7 +73,7 @@ namespace Human.WebServer.Migrations
                         .HasMaxLength(61)
                         .HasColumnType("character varying(61)");
 
-                    b.Property<Instant>("UpdatingTime")
+                    b.Property<Instant>("UpdatedTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("current_timestamp");
@@ -62,11 +88,11 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1e0e515a-89a5-4c64-8e46-4f4b205152e2"),
-                            CreationTime = NodaTime.Instant.FromUnixTimeTicks(0L),
+                            Id = new Guid("b202eed9-e962-4349-8dbe-4bd87d238dc7"),
+                            CreatedTime = NodaTime.Instant.FromUnixTimeTicks(0L),
                             Email = "admin@gmail.com",
-                            PasswordHash = "$2a$11$lPeb4b1JjmkmQEceZPlmHe0AYxIHl.jeKMUu81kVTqtgzdwmm/K0y",
-                            UpdatingTime = NodaTime.Instant.FromUnixTimeTicks(0L)
+                            PasswordHash = "$2a$11$xjLGV9KI25.YAs9bD1JMe.23G9QMk7GJgB2Rv6JWg9m6bqx.m9ck.",
+                            UpdatedTime = NodaTime.Instant.FromUnixTimeTicks(0L)
                         });
                 });
 
@@ -106,8 +132,23 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("1e0e515a-89a5-4c64-8e46-4f4b205152e2"),
-                            Permission = "create_user"
+                            UserId = new Guid("b202eed9-e962-4349-8dbe-4bd87d238dc7"),
+                            Permission = "create:department"
+                        },
+                        new
+                        {
+                            UserId = new Guid("b202eed9-e962-4349-8dbe-4bd87d238dc7"),
+                            Permission = "delete:department"
+                        },
+                        new
+                        {
+                            UserId = new Guid("b202eed9-e962-4349-8dbe-4bd87d238dc7"),
+                            Permission = "read:department"
+                        },
+                        new
+                        {
+                            UserId = new Guid("b202eed9-e962-4349-8dbe-4bd87d238dc7"),
+                            Permission = "update:department"
                         });
                 });
 
