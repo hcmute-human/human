@@ -22,3 +22,24 @@ public static class ResultExtensions
         return result;
     }
 }
+
+public static class ErrorExtensions
+{
+    public static IError WithName(this IError error, string name)
+    {
+        error.Metadata.Add("name", name.ToLowerInvariant());
+        return error;
+    }
+
+    public static IError WithCode(this IError error, string code)
+    {
+        error.Metadata.Add("code", code.ToLowerInvariant());
+        return error;
+    }
+
+    public static IError WithStatus(this IError error, HttpStatusCode statusCode)
+    {
+        error.Metadata.Add("statusCode", statusCode);
+        return error;
+    }
+}
