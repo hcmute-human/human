@@ -11,8 +11,11 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<UserPasswordResetToken> UserPasswordResetTokens => Set<UserPasswordResetToken>();
     public DbSet<UserPermission> UserPermissions => Set<UserPermission>();
     public DbSet<UserRefreshToken> UserRefreshTokens => Set<UserRefreshToken>();
+    public DbSet<Department> Departments => Set<Department>();
 
-    public AppDbContext(DbContextOptions options) : base(options) { }
+    public AppDbContext(DbContextOptions options) : base(options)
+    {
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,10 +29,12 @@ public class AppDbContext : DbContext, IAppDbContext
             PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("admin")
         };
         modelBuilder.Entity<User>().HasData(user);
-        modelBuilder.Entity<UserPermission>().HasData(new
-        {
-            UserId = user.Id,
-            Permission = Permit.CreateUser
-        });
+        modelBuilder.Entity<UserPermission>().HasData(
+            new[] { Permit.CreateDepartment, Permit.DeleteDepartment, Permit.ReadDepartment, Permit.UpdateDepartment }
+                .Select(x => new
+                {
+                    UserId = user.Id,
+                    Permission = x
+                }));
     }
 }
