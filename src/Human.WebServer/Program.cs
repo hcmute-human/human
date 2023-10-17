@@ -3,6 +3,7 @@ using FastEndpoints;
 using FastEndpoints.Security;
 using Human.Core.Models;
 using Human.Infrastructure.Models;
+using Human.WebServer.Converters;
 using Human.WebServer.Middlewares;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Options;
@@ -33,6 +34,7 @@ public static class Program
             var options = app.Services.GetRequiredService<IOptions<ApiOptions>>().Value;
             x.Errors.UseProblemDetails();
             x.Endpoints.RoutePrefix = options.RoutePrefix;
+            x.Binding.ValueParserFor<Guid>(Base64GuidJsonConverter.ValueParser);
         });
 
         app.Run();
@@ -41,6 +43,7 @@ public static class Program
     private static void Configure(IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JsonOptions>(x => x.SerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
+        services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new Base64GuidJsonConverter()));
         services.AddProblemDetails();
         services.AddFastEndpoints(x =>
         {
