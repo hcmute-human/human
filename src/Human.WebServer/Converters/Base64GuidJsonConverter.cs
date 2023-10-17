@@ -10,7 +10,15 @@ public class Base64GuidJsonConverter : JsonConverter<Guid>
     public override Guid Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
-        JsonSerializerOptions options) => new(Base64UrlTextEncoder.Decode(reader.GetString()!));
+        JsonSerializerOptions options)
+    {
+        var value = reader.GetString()!;
+        if (Guid.TryParseExact(value, "D", out var guid))
+        {
+            return guid;
+        }
+        return new Guid(Base64UrlTextEncoder.Decode(value));
+    }
 
     public override void Write(
         Utf8JsonWriter writer,
@@ -19,10 +27,16 @@ public class Base64GuidJsonConverter : JsonConverter<Guid>
 
     public static ParseResult ValueParser(object? x)
     {
+        var value = x?.ToString()!;
+        if (Guid.TryParseExact(value, "D", out var guid))
+        {
+            return new ParseResult(true, guid);
+        }
+
         byte[] bytes;
         try
         {
-            bytes = Base64UrlTextEncoder.Decode(x?.ToString()!);
+            bytes = Base64UrlTextEncoder.Decode(value);
         }
         catch
         {
