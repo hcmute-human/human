@@ -80,20 +80,40 @@ namespace Human.WebServer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserRefreshTokens",
+                columns: table => new
+                {
+                    Token = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
+                    ExpiryTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRefreshTokens", x => new { x.UserId, x.Token });
+                    table.ForeignKey(
+                        name: "FK_UserRefreshTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash" },
-                values: new object[] { new Guid("b202eed9-e962-4349-8dbe-4bd87d238dc7"), "admin@gmail.com", "$2a$11$xjLGV9KI25.YAs9bD1JMe.23G9QMk7GJgB2Rv6JWg9m6bqx.m9ck." });
+                values: new object[] { new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"), "admin@gmail.com", "$2a$11$ZH1RTH8MeU.9PKOMjDmdouNuzjatQ6XWHFnx.wL8Ra4cNSZkGHFlO" });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "Permission", "UserId" },
                 values: new object[,]
                 {
-                    { "create:department", new Guid("b202eed9-e962-4349-8dbe-4bd87d238dc7") },
-                    { "delete:department", new Guid("b202eed9-e962-4349-8dbe-4bd87d238dc7") },
-                    { "read:department", new Guid("b202eed9-e962-4349-8dbe-4bd87d238dc7") },
-                    { "update:department", new Guid("b202eed9-e962-4349-8dbe-4bd87d238dc7") }
+                    { "create:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") },
+                    { "delete:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") },
+                    { "read:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") },
+                    { "update:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -120,6 +140,9 @@ namespace Human.WebServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserPermissions");
+
+            migrationBuilder.DropTable(
+                name: "UserRefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "Users");
