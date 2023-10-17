@@ -1,0 +1,13 @@
+using Human.Core.Features.Departments.GetDepartments;
+using Human.Core.Models;
+using Riok.Mapperly.Abstractions;
+
+namespace Human.WebServer.Api.V1.Departments.GetDepartments;
+
+internal sealed class Request : Pageable { }
+
+[Mapper]
+internal static partial class RequestMapper
+{
+    public static partial GetDepartmentsCommand ToCommand(this Request request);
+}

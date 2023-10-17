@@ -2,16 +2,16 @@ using FastEndpoints;
 using Human.Domain.Constants;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace Human.WebServer.Api.V1.Departments.GetDepartment;
+namespace Human.WebServer.Api.V1.Departments.GetDepartments;
 
-using Results = Results<Ok<Response>, ProblemDetails>;
+using Results = Results<Ok<Response[]>, ProblemDetails>;
 
 internal sealed class Endpoint : Endpoint<Request, Results>
 {
     public override void Configure()
     {
         Permissions(Permit.ReadDepartment);
-        Get("departments/{Id}");
+        Get("departments");
         Verbs(Http.GET);
         Version(1);
     }
