@@ -17,12 +17,18 @@ public sealed class GetDepartmentsHandler : ICommandHandler<GetDepartmentsComman
 
     public async Task<Result<GetDepartmentsResult[]>> ExecuteAsync(GetDepartmentsCommand command, CancellationToken ct)
     {
-        var departments = await dbContext.Departments
+        var query = dbContext.Departments.AsQueryable();
+        if (!string.IsNullOrEmpty(command.Name))
+        {
+            query = query.Where(x => x.Name.Contains(command.Name));
+        }
+
+        query = query
             .OrderBy(x => x.CreatedTime)
             .Skip(command.Offset)
-            .Take(command.Size)
-            .ToArrayAsync(ct)
-            .ConfigureAwait(false);
+            .Take(command.Size);
+
+        var departments = await query.ToArrayAsync(ct).ConfigureAwait(false);
         return departments.ToResult();
     }
 }
