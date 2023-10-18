@@ -1,4 +1,3 @@
-using FastEndpoints;
 using Human.Core.Features.Departments.GetDepartments;
 using Human.Core.Models;
 using Riok.Mapperly.Abstractions;
