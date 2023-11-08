@@ -17,7 +17,9 @@ public class DesignTimeAppDbContextFactory : IDesignTimeDbContextFactory<AppDbCo
         var options = configuration.GetSection(PersistenceOptions.Section).Get<PersistenceOptions>()!;
 
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-        optionsBuilder.UseNpgsql(options.ConnectionString, x => x.UseNodaTime().MigrationsAssembly(options.MigrationsAssembly));
+        optionsBuilder
+            .UseNpgsql(options.ConnectionString, x => x.UseNodaTime().MigrationsAssembly(options.MigrationsAssembly))
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         return new AppDbContext(optionsBuilder.Options);
     }
 }

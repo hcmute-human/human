@@ -4,6 +4,8 @@ using NodaTime;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Human.WebServer.Migrations
 {
     /// <inheritdoc />
@@ -13,12 +15,26 @@ namespace Human.WebServer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Departments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    UpdatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    Name = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Departments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreationTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
-                    UpdatingTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    UpdatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
                     Email = table.Column<string>(type: "character varying(261)", maxLength: 261, nullable: false),
                     PasswordHash = table.Column<string>(type: "character varying(61)", maxLength: 61, nullable: false)
                 },
@@ -64,15 +80,41 @@ namespace Human.WebServer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserRefreshTokens",
+                columns: table => new
+                {
+                    Token = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
+                    ExpiryTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRefreshTokens", x => new { x.UserId, x.Token });
+                    table.ForeignKey(
+                        name: "FK_UserRefreshTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash" },
-                values: new object[] { new Guid("1e0e515a-89a5-4c64-8e46-4f4b205152e2"), "admin@gmail.com", "$2a$11$lPeb4b1JjmkmQEceZPlmHe0AYxIHl.jeKMUu81kVTqtgzdwmm/K0y" });
+                values: new object[] { new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"), "admin@gmail.com", "$2a$11$ZH1RTH8MeU.9PKOMjDmdouNuzjatQ6XWHFnx.wL8Ra4cNSZkGHFlO" });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "Permission", "UserId" },
-                values: new object[] { "create_user", new Guid("1e0e515a-89a5-4c64-8e46-4f4b205152e2") });
+                values: new object[,]
+                {
+                    { "create:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") },
+                    { "delete:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") },
+                    { "read:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") },
+                    { "update:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPasswordResetTokens_UserId",
@@ -91,10 +133,16 @@ namespace Human.WebServer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Departments");
+
+            migrationBuilder.DropTable(
                 name: "UserPasswordResetTokens");
 
             migrationBuilder.DropTable(
                 name: "UserPermissions");
+
+            migrationBuilder.DropTable(
+                name: "UserRefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "Users");

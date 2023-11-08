@@ -23,13 +23,39 @@ namespace Human.WebServer.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Human.Domain.Models.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Instant>("CreatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("current_timestamp");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<Instant>("UpdatedTime")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("current_timestamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("Human.Domain.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Instant>("CreationTime")
+                    b.Property<Instant>("CreatedTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("current_timestamp");
@@ -44,8 +70,8 @@ namespace Human.WebServer.Migrations
                         .HasMaxLength(61)
                         .HasColumnType("character varying(61)");
 
-                    b.Property<Instant>("UpdatingTime")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Instant>("UpdatedTime")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("current_timestamp");
 
@@ -59,11 +85,11 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1e0e515a-89a5-4c64-8e46-4f4b205152e2"),
-                            CreationTime = NodaTime.Instant.FromUnixTimeTicks(0L),
+                            Id = new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"),
+                            CreatedTime = NodaTime.Instant.FromUnixTimeTicks(0L),
                             Email = "admin@gmail.com",
-                            PasswordHash = "$2a$11$lPeb4b1JjmkmQEceZPlmHe0AYxIHl.jeKMUu81kVTqtgzdwmm/K0y",
-                            UpdatingTime = NodaTime.Instant.FromUnixTimeTicks(0L)
+                            PasswordHash = "$2a$11$ZH1RTH8MeU.9PKOMjDmdouNuzjatQ6XWHFnx.wL8Ra4cNSZkGHFlO",
+                            UpdatedTime = NodaTime.Instant.FromUnixTimeTicks(0L)
                         });
                 });
 
@@ -103,9 +129,43 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("1e0e515a-89a5-4c64-8e46-4f4b205152e2"),
-                            Permission = "create_user"
+                            UserId = new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"),
+                            Permission = "create:department"
+                        },
+                        new
+                        {
+                            UserId = new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"),
+                            Permission = "delete:department"
+                        },
+                        new
+                        {
+                            UserId = new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"),
+                            Permission = "read:department"
+                        },
+                        new
+                        {
+                            UserId = new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"),
+                            Permission = "update:department"
                         });
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.UserRefreshToken", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("Token")
+                        .HasColumnType("uuid");
+
+                    b.Property<Instant>("CreatedTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Instant>("ExpiryTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UserId", "Token");
+
+                    b.ToTable("UserRefreshTokens");
                 });
 
             modelBuilder.Entity("Human.Domain.Models.UserPasswordResetToken", b =>
@@ -120,6 +180,17 @@ namespace Human.WebServer.Migrations
                 });
 
             modelBuilder.Entity("Human.Domain.Models.UserPermission", b =>
+                {
+                    b.HasOne("Human.Domain.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.UserRefreshToken", b =>
                 {
                     b.HasOne("Human.Domain.Models.User", "User")
                         .WithMany()

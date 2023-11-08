@@ -11,6 +11,7 @@ using NodaTime;
 using NodaTime.Serialization.SystemTextJson;
 using RazorLight;
 using RazorLight.Extensions;
+using SystemTextJsonPatch.Converters;
 
 namespace Human.WebServer;
 
@@ -35,6 +36,7 @@ public static class Program
             x.Errors.UseProblemDetails();
             x.Endpoints.RoutePrefix = options.RoutePrefix;
             x.Binding.ValueParserFor<Guid>(Base64GuidJsonConverter.ValueParser);
+            x.Binding.ValueParserFor<Orderable[]>(OrderableArrayJsonConverter.ValueParser);
         });
 
         app.Run();
@@ -43,7 +45,9 @@ public static class Program
     private static void Configure(IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JsonOptions>(x => x.SerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb));
+        services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new JsonPatchDocumentConverterFactory()));
         services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new Base64GuidJsonConverter()));
+        services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new OrderableArrayJsonConverter()));
         services.AddProblemDetails();
         services.AddFastEndpoints(x =>
         {
