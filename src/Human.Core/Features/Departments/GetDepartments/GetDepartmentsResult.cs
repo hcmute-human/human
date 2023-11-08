@@ -1,13 +1,12 @@
-﻿using Human.Domain.Models;
+﻿using Human.Core.Models;
+using Human.Domain.Models;
 using NodaTime;
 using Riok.Mapperly.Abstractions;
 
 namespace Human.Core.Features.Departments.GetDepartments;
 
-public sealed class GetDepartmentsResult
+public sealed class GetDepartmentsResult : PaginatedList<GetDepartmentsResult.Item>
 {
-    public int TotalCount { get; set; }
-    public Item[] Items { get; set; } = Array.Empty<Item>();
     public sealed class Item
     {
         public Guid Id { get; set; }

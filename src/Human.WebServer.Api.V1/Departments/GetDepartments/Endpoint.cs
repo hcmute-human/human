@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Human.WebServer.Api.V1.Departments.GetDepartments;
 
-using Results = Results<Ok<Response>, ProblemDetails>;
+using Results = Results<Ok<Response>, Ok<Request>, ProblemDetails>;
 
 internal sealed class Endpoint : Endpoint<Request, Results>
 {

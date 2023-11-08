@@ -1,14 +1,12 @@
 using Human.Core.Features.Departments.GetDepartments;
+using Human.Core.Models;
 using NodaTime;
 using Riok.Mapperly.Abstractions;
 
 namespace Human.WebServer.Api.V1.Departments.GetDepartments;
 
-internal sealed class Response
+internal sealed class Response : PaginatedList<Response.Item>
 {
-    public int TotalCount { get; set; }
-    public Item[] Items { get; set; } = Array.Empty<Item>();
-
     public sealed class Item
     {
         public Guid Id { get; set; }

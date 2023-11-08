@@ -1,6 +1,7 @@
 using FastEndpoints;
 using FluentResults;
 using Human.Core.Interfaces;
+using Human.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Human.Core.Features.Departments.GetDepartments;
@@ -23,8 +24,11 @@ public sealed class GetDepartmentsHandler : ICommandHandler<GetDepartmentsComman
         }
 
         var totalCount = await query.CountAsync(ct).ConfigureAwait(false);
+        query = command.Order
+            .Where(x => x.Name.EqualsEither(new[] { "name", "createdTime" }, StringComparison.OrdinalIgnoreCase))
+            .SortOrDefault(query, x => x.OrderBy(x => x.CreatedTime));
+
         var departments = await query
-            .OrderBy(x => x.CreatedTime)
             .Skip(command.Offset)
             .Take(command.Size)
             .ToArrayAsync(ct).ConfigureAwait(false);

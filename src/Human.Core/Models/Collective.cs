@@ -1,9 +1,14 @@
+using System.Text.Json.Serialization;
+using FastEndpoints;
+using Microsoft.AspNetCore.Mvc;
+
 namespace Human.Core.Models;
 
-public class Pageable
+public class Collective
 {
     private int page = 1;
     private int size = 20;
+    [QueryParam]
     public int Page
     {
         get => page; set
@@ -11,6 +16,7 @@ public class Pageable
             page = value < 1 ? 1 : value;
         }
     }
+    [QueryParam]
     public int Size
     {
         get => size; set
@@ -18,12 +24,9 @@ public class Pageable
             size = value < 0 ? 0 : value;
         }
     }
+    [JsonIgnore]
     public int Offset => (page - 1) * Size;
-
-    public Pageable() { }
-    public Pageable(int page, int size)
-    {
-        Page = page;
-        Size = size;
-    }
+    [FromQuery]
+    [BindFrom("order")]
+    public Orderable[] Order { get; set; } = Array.Empty<Orderable>();
 }

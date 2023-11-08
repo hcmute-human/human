@@ -3,6 +3,8 @@ using System.Reflection;
 using FluentResults;
 using FluentValidation;
 using FluentValidation.Results;
+using Human.Core.Constants;
+using Human.Core.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Metadata;
@@ -45,6 +47,47 @@ public static class EndpointExtensions
         where TEndpoint : IEndpoint
     {
         return new CreatedAtEndpoint<TEndpoint, TValue>(routeValues, value);
+    }
+
+    public static Pageable Pageable(this IEndpoint endpoint)
+    {
+        if (!endpoint.HttpContext.Request.Query.TryGetValue("page", out var pageStr) || !int.TryParse(pageStr.FirstOrDefault(), out var page))
+        {
+            page = 1;
+        }
+        if (!endpoint.HttpContext.Request.Query.TryGetValue("size", out var sizeStr) || !int.TryParse(sizeStr.FirstOrDefault(), out var size))
+        {
+            size = 10;
+        }
+        return new Pageable(page, size);
+    }
+
+    public static ICollection<Orderable> Sortables(this IEndpoint endpoint)
+    {
+        var sortables = new List<Orderable>();
+        if (!endpoint.HttpContext.Request.Query.TryGetValue("page", out var sorts))
+        {
+            foreach (var sort in sorts)
+            {
+                sortables.AddRange(sorts.Where(x => !string.IsNullOrEmpty(x)).Select(x =>
+                {
+                    if (x![0] == '-')
+                    {
+                        return new Orderable
+                        {
+                            Name = x[1..].Trim(),
+                            Order = Human.Core.Constants.Order.Descending
+                        };
+                    }
+                    return new Orderable
+                    {
+                        Name = x.Trim(),
+                        Order = Human.Core.Constants.Order.Ascending
+                    };
+                }));
+            }
+        }
+        return sortables;
     }
 }
 
