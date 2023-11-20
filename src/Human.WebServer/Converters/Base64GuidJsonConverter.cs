@@ -1,3 +1,4 @@
+using System.Buffers.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using FastEndpoints;
@@ -12,8 +13,23 @@ public class Base64GuidJsonConverter : JsonConverter<Guid>
         Type typeToConvert,
         JsonSerializerOptions options)
     {
-        var value = reader.GetString()!;
-        if (Guid.TryParseExact(value, "D", out var guid))
+        if (reader.TokenType != JsonTokenType.String)
+        {
+            return Guid.Empty;
+        }
+        var span = reader.ValueSpan;
+        if (Utf8Parser.TryParse(span, out Guid guid, out int bytesConsumed) && span.Length == bytesConsumed)
+        {
+            return guid;
+        }
+
+        var value = reader.GetString();
+        if (value is null)
+        {
+            return Guid.Empty;
+        }
+
+        if (Guid.TryParseExact(value, "D", out guid))
         {
             return guid;
         }
@@ -27,7 +43,12 @@ public class Base64GuidJsonConverter : JsonConverter<Guid>
 
     public static ParseResult ValueParser(object? x)
     {
-        var value = x?.ToString()!;
+        var value = x?.ToString();
+        if (value is null)
+        {
+            return new ParseResult(false, Guid.Empty);
+        }
+
         if (Guid.TryParseExact(value, "D", out var guid))
         {
             return new ParseResult(true, guid);
