@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Human.WebServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231016052611_InitialCreate")]
+    [Migration("20231118065807_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -43,13 +43,53 @@ namespace Human.WebServer.Migrations
                         .HasColumnType("character varying(32)");
 
                     b.Property<Instant>("UpdatedTime")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("current_timestamp");
 
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Instant>("CreatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("current_timestamp");
+
+                    b.Property<Instant>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EmploymentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("numeric");
+
+                    b.Property<Instant>("UpdatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("current_timestamp");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("Human.Domain.Models.User", b =>
@@ -74,7 +114,7 @@ namespace Human.WebServer.Migrations
                         .HasColumnType("character varying(61)");
 
                     b.Property<Instant>("UpdatedTime")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("current_timestamp");
 
@@ -88,10 +128,10 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"),
+                            Id = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
                             CreatedTime = NodaTime.Instant.FromUnixTimeTicks(0L),
                             Email = "admin@gmail.com",
-                            PasswordHash = "$2a$11$ZH1RTH8MeU.9PKOMjDmdouNuzjatQ6XWHFnx.wL8Ra4cNSZkGHFlO",
+                            PasswordHash = "$2a$11$ck7bcL21bS2Lfh2HpwOtuexrFvpaw2huKBEQoxLNPsKFCiFO3DQJW",
                             UpdatedTime = NodaTime.Instant.FromUnixTimeTicks(0L)
                         });
                 });
@@ -132,23 +172,43 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"),
+                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
                             Permission = "create:department"
                         },
                         new
                         {
-                            UserId = new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"),
+                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
                             Permission = "delete:department"
                         },
                         new
                         {
-                            UserId = new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"),
+                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
                             Permission = "read:department"
                         },
                         new
                         {
-                            UserId = new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"),
+                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
                             Permission = "update:department"
+                        },
+                        new
+                        {
+                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            Permission = "create:employee"
+                        },
+                        new
+                        {
+                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            Permission = "delete:employee"
+                        },
+                        new
+                        {
+                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            Permission = "read:employee"
+                        },
+                        new
+                        {
+                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            Permission = "update:employee"
                         });
                 });
 
@@ -169,6 +229,17 @@ namespace Human.WebServer.Migrations
                     b.HasKey("UserId", "Token");
 
                     b.ToTable("UserRefreshTokens");
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.Employee", b =>
+                {
+                    b.HasOne("Human.Domain.Models.User", "User")
+                        .WithOne()
+                        .HasForeignKey("Human.Domain.Models.Employee", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Human.Domain.Models.UserPasswordResetToken", b =>

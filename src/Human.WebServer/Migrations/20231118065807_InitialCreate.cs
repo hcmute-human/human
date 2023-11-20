@@ -44,6 +44,30 @@ namespace Human.WebServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    UpdatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    FirstName = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    LastName = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    DateOfBirth = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
+                    EmploymentType = table.Column<string>(type: "text", nullable: false),
+                    Salary = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employees_Users_Id",
+                        column: x => x.Id,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserPasswordResetTokens",
                 columns: table => new
                 {
@@ -103,17 +127,21 @@ namespace Human.WebServer.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash" },
-                values: new object[] { new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628"), "admin@gmail.com", "$2a$11$ZH1RTH8MeU.9PKOMjDmdouNuzjatQ6XWHFnx.wL8Ra4cNSZkGHFlO" });
+                values: new object[] { new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"), "admin@gmail.com", "$2a$11$ck7bcL21bS2Lfh2HpwOtuexrFvpaw2huKBEQoxLNPsKFCiFO3DQJW" });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "Permission", "UserId" },
                 values: new object[,]
                 {
-                    { "create:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") },
-                    { "delete:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") },
-                    { "read:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") },
-                    { "update:department", new Guid("3eec9cbc-602e-4261-a87a-66fd7d1c2628") }
+                    { "create:department", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
+                    { "create:employee", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
+                    { "delete:department", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
+                    { "delete:employee", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
+                    { "read:department", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
+                    { "read:employee", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
+                    { "update:department", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
+                    { "update:employee", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -134,6 +162,9 @@ namespace Human.WebServer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "UserPasswordResetTokens");

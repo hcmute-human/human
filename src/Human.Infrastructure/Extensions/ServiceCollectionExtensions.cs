@@ -18,6 +18,7 @@ public static class ServiceCollectionExtensions
                 .UseNpgsql(
                     options.ConnectionString,
                     builder => builder.UseNodaTime().MigrationsAssembly(options.MigrationsAssembly))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
 #if DEBUG
                 .EnableSensitiveDataLogging()
 #endif

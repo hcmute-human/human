@@ -8,6 +8,7 @@ namespace Human.Infrastructure.Persistence;
 public class AppDbContext : DbContext, IAppDbContext
 {
     public DbSet<User> Users => Set<User>();
+    public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<UserPasswordResetToken> UserPasswordResetTokens => Set<UserPasswordResetToken>();
     public DbSet<UserPermission> UserPermissions => Set<UserPermission>();
     public DbSet<UserRefreshToken> UserRefreshTokens => Set<UserRefreshToken>();
@@ -30,7 +31,7 @@ public class AppDbContext : DbContext, IAppDbContext
         };
         modelBuilder.Entity<User>().HasData(user);
         modelBuilder.Entity<UserPermission>().HasData(
-            new[] { Permit.CreateDepartment, Permit.DeleteDepartment, Permit.ReadDepartment, Permit.UpdateDepartment }
+            new[] { Permit.CreateDepartment, Permit.DeleteDepartment, Permit.ReadDepartment, Permit.UpdateDepartment, Permit.CreateEmployee, Permit.DeleteEmployee, Permit.ReadEmployee, Permit.UpdateEmployee }
                 .Select(x => new
                 {
                     UserId = user.Id,

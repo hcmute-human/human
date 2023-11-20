@@ -7,6 +7,7 @@ namespace Human.Core.Interfaces;
 public interface IAppDbContext
 {
     DbSet<User> Users { get; }
+    DbSet<Employee> Employees { get; }
     DbSet<UserPasswordResetToken> UserPasswordResetTokens { get; }
     DbSet<UserPermission> UserPermissions { get; }
     DbSet<UserRefreshToken> UserRefreshTokens { get; }
