@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
         self.AddSingleton<IJwtBearerService, JwtBearerService>();
         self.AddSingleton<IEmailTemplateRenderer, HtmlEmailTemplateRenderer>();
         self.AddSingleton<IValidator<Department>, DepartmentValidator>();
+        self.AddSingleton<IValidator<Employee>, EmployeeValidator>();
         return self;
     }
 }

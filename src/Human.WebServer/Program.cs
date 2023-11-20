@@ -36,6 +36,7 @@ public static class Program
             x.Errors.UseProblemDetails();
             x.Endpoints.RoutePrefix = options.RoutePrefix;
             x.Binding.ValueParserFor<Guid>(Base64GuidJsonConverter.ValueParser);
+            x.Binding.ValueParserFor<Guid?>(Base64GuidJsonConverter.ValueParser);
             x.Binding.ValueParserFor<Orderable[]>(OrderableArrayJsonConverter.ValueParser);
         });
 

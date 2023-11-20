@@ -20,3 +20,10 @@ mig +arg:
 
 db +arg:
     dotnet ef database {{arg}} --project src/Human.WebServer
+
+zzz:
+    just db drop -f
+    just mig remove
+    just mig add InitialCreate
+    just db update
+    just optimize
