@@ -12,6 +12,8 @@ public interface IAppDbContext
     DbSet<UserPermission> UserPermissions { get; }
     DbSet<UserRefreshToken> UserRefreshTokens { get; }
     DbSet<Department> Departments { get; }
+    DbSet<DepartmentPosition> DepartmentPositions { get; }
+    DbSet<EmployeePosition> EmployeePositions { get; }
 
     EntityEntry Attach(object entity);
     EntityEntry Add(object entity);

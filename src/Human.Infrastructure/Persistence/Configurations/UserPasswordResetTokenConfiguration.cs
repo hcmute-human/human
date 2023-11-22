@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Human.Infrastructure.Persistence.Configurations;
 
-public sealed class UserPasswordResetTokenEntityTypeConfiguration : IEntityTypeConfiguration<UserPasswordResetToken>
+public sealed class UserPasswordResetTokenConfiguration : IEntityTypeConfiguration<UserPasswordResetToken>
 {
     public void Configure(EntityTypeBuilder<UserPasswordResetToken> builder)
     {

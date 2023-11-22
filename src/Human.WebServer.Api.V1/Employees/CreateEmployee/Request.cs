@@ -17,8 +17,7 @@ internal sealed class Request
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? DateOfBirth { get; set; }
-    public EmploymentType? EmploymentType { get; set; }
-    public decimal? Salary { get; set; }
+    public Gender? Gender { get; set; }
 }
 
 internal sealed class RequestValidator : Validator<Request>
@@ -31,10 +30,7 @@ internal sealed class RequestValidator : Validator<Request>
         RuleFor(x => x.FirstName).NotEmpty();
         RuleFor(x => x.LastName).NotEmpty();
         RuleFor(x => x.DateOfBirth).NotNull();
-        RuleFor(x => x.EmploymentType).NotNull();
-        RuleFor(x => x.Salary)
-            .NotNull()
-            .GreaterThanOrEqualTo(0);
+        RuleFor(x => x.Gender).NotEmpty().IsInEnum();
     }
 }
 
@@ -47,9 +43,8 @@ internal static class RequestMapper
             User = user,
             FirstName = request.FirstName!,
             LastName = request.LastName!,
-            EmploymentType = request.EmploymentType!.Value,
             DateOfBirth = Instant.FromDateTimeOffset(DateTimeOffset.Parse(request.DateOfBirth!, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal)),
-            Salary = request.Salary!.Value
+            Gender = request.Gender!.Value
         };
     }
 }

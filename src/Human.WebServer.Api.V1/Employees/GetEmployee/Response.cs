@@ -1,7 +1,8 @@
 
 using Riok.Mapperly.Abstractions;
-using Human.Core.Features.Employees.GetEmployee;
 using NodaTime;
+using Human.Domain.Models;
+using Human.Domain.Constants;
 
 namespace Human.WebServer.Api.V1.Employees.GetEmployee;
 
@@ -13,10 +14,11 @@ public sealed class Response
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public Instant DateOfBirth { get; set; }
+    public Gender Gender { get; set; }
 }
 
 [Mapper]
 internal static partial class ResponseMapper
 {
-    public static partial Response ToResponse(this GetEmployeeResult result);
+    public static partial Response ToResponse(this Employee result);
 }

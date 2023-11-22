@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Human.Core.Models;
@@ -49,6 +50,7 @@ public static class Program
         services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new JsonPatchDocumentConverterFactory()));
         services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new Base64GuidJsonConverter()));
         services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new OrderableArrayJsonConverter()));
+        services.Configure<JsonOptions>(x => x.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         services.AddProblemDetails();
         services.AddFastEndpoints(x =>
         {

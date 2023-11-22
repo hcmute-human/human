@@ -7,6 +7,7 @@ namespace Human.WebServer.Api.V1.Employees.GetEmployees;
 
 internal sealed class Request : Collective
 {
+    public Guid? DepartmentId { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
 }

@@ -27,11 +27,19 @@ public sealed class GetEmployeesHandler : ICommandHandler<GetEmployeesCommand, R
         {
             query = query.Where(x => x.LastName.Contains(command.LastName));
         }
+        if (command.DepartmentId is not null)
+        {
+            query = query.Where(x => x.Positions.Any(x => x.DepartmentPosition.DepartmentId == command.DepartmentId));
+        }
 
         var totalCount = await query.CountAsync(ct).ConfigureAwait(false);
+        if (command.CountOnly)
+        {
+            return new GetEmployeesResult { TotalCount = totalCount, Items = Array.Empty<Employee>(), };
+        }
 
         query = command.Order.SortOrDefault(query, x => x.OrderByDescending(x => x.CreatedTime));
         var employees = await query.Skip(command.Offset).Take(command.Size).ToArrayAsync(ct).ConfigureAwait(false) ?? Array.Empty<Employee>();
-        return new GetEmployeesResult { TotalCount = totalCount, Items = employees.ToItems(), };
+        return new GetEmployeesResult { TotalCount = totalCount, Items = employees };
     }
 }

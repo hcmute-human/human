@@ -18,7 +18,7 @@ namespace Human.WebServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -49,6 +49,37 @@ namespace Human.WebServer.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("Human.Domain.Models.DepartmentPosition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Instant>("CreatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("current_timestamp");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)");
+
+                    b.Property<Instant>("UpdatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("current_timestamp");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("DepartmentPositions");
+                });
+
             modelBuilder.Entity("Human.Domain.Models.Employee", b =>
                 {
                     b.Property<Guid>("Id")
@@ -62,22 +93,19 @@ namespace Human.WebServer.Migrations
                     b.Property<Instant>("DateOfBirth")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("EmploymentType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
-
-                    b.Property<decimal>("Salary")
-                        .HasColumnType("numeric");
 
                     b.Property<Instant>("UpdatedTime")
                         .ValueGeneratedOnAdd()
@@ -87,6 +115,44 @@ namespace Human.WebServer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.EmployeePosition", b =>
+                {
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DepartmentPositionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Instant>("CreatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("current_timestamp");
+
+                    b.Property<string>("EmploymentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Instant>("EndTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("numeric");
+
+                    b.Property<Instant>("StartTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Instant>("UpdatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("current_timestamp");
+
+                    b.HasKey("EmployeeId", "DepartmentPositionId");
+
+                    b.HasIndex("DepartmentPositionId");
+
+                    b.ToTable("EmployeePositions");
                 });
 
             modelBuilder.Entity("Human.Domain.Models.User", b =>
@@ -125,10 +191,10 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            Id = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
                             CreatedTime = NodaTime.Instant.FromUnixTimeTicks(0L),
                             Email = "admin@gmail.com",
-                            PasswordHash = "$2a$11$ck7bcL21bS2Lfh2HpwOtuexrFvpaw2huKBEQoxLNPsKFCiFO3DQJW",
+                            PasswordHash = "$2a$11$64yVH5hVA6oxBKOAWEdE6OV6eYlzdP86UQWNJ7ox/pOnoki.o5vc6",
                             UpdatedTime = NodaTime.Instant.FromUnixTimeTicks(0L)
                         });
                 });
@@ -169,43 +235,83 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
                             Permission = "create:department"
                         },
                         new
                         {
-                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
-                            Permission = "delete:department"
-                        },
-                        new
-                        {
-                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
                             Permission = "read:department"
                         },
                         new
                         {
-                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
                             Permission = "update:department"
                         },
                         new
                         {
-                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
+                            Permission = "delete:department"
+                        },
+                        new
+                        {
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
                             Permission = "create:employee"
                         },
                         new
                         {
-                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
-                            Permission = "delete:employee"
-                        },
-                        new
-                        {
-                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
                             Permission = "read:employee"
                         },
                         new
                         {
-                            UserId = new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"),
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
                             Permission = "update:employee"
+                        },
+                        new
+                        {
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
+                            Permission = "delete:employee"
+                        },
+                        new
+                        {
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
+                            Permission = "create:departmentPosition"
+                        },
+                        new
+                        {
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
+                            Permission = "read:departmentPosition"
+                        },
+                        new
+                        {
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
+                            Permission = "update:departmentPosition"
+                        },
+                        new
+                        {
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
+                            Permission = "delete:departmentPosition"
+                        },
+                        new
+                        {
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
+                            Permission = "create:employeePosition"
+                        },
+                        new
+                        {
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
+                            Permission = "read:employeePosition"
+                        },
+                        new
+                        {
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
+                            Permission = "update:employeePosition"
+                        },
+                        new
+                        {
+                            UserId = new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"),
+                            Permission = "delete:employeePosition"
                         });
                 });
 
@@ -228,6 +334,17 @@ namespace Human.WebServer.Migrations
                     b.ToTable("UserRefreshTokens");
                 });
 
+            modelBuilder.Entity("Human.Domain.Models.DepartmentPosition", b =>
+                {
+                    b.HasOne("Human.Domain.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
             modelBuilder.Entity("Human.Domain.Models.Employee", b =>
                 {
                     b.HasOne("Human.Domain.Models.User", "User")
@@ -237,6 +354,25 @@ namespace Human.WebServer.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.EmployeePosition", b =>
+                {
+                    b.HasOne("Human.Domain.Models.DepartmentPosition", "DepartmentPosition")
+                        .WithMany()
+                        .HasForeignKey("DepartmentPositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Human.Domain.Models.Employee", "Employee")
+                        .WithMany("Positions")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DepartmentPosition");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Human.Domain.Models.UserPasswordResetToken", b =>
@@ -270,6 +406,11 @@ namespace Human.WebServer.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.Employee", b =>
+                {
+                    b.Navigation("Positions");
                 });
 #pragma warning restore 612, 618
         }
