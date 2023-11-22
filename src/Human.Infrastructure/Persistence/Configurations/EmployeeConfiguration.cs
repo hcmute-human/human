@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Human.Infrastructure.Persistence.Configurations;
 
-public sealed class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<Employee>
+public sealed class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 {
     public void Configure(EntityTypeBuilder<Employee> builder)
     {
@@ -18,7 +18,6 @@ public sealed class EmployeeEntityTypeConfiguration : IEntityTypeConfiguration<E
         builder.Property(x => x.FirstName).HasMaxLength(32).IsRequired();
         builder.Property(x => x.LastName).HasMaxLength(32).IsRequired();
         builder.Property(x => x.DateOfBirth).IsRequired();
-        builder.Property(x => x.EmploymentType).HasConversion<EnumToStringConverter<EmploymentType>>().IsRequired();
-        builder.Property(x => x.Salary).IsRequired();
+        builder.Property(x => x.Gender).IsRequired().HasConversion<EnumToStringConverter<Gender>>();
     }
 }

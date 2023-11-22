@@ -1,3 +1,4 @@
+using System.Reflection;
 using Human.Core.Interfaces;
 using Human.Domain.Constants;
 using Human.Domain.Models;
@@ -13,6 +14,8 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<UserPermission> UserPermissions => Set<UserPermission>();
     public DbSet<UserRefreshToken> UserRefreshTokens => Set<UserRefreshToken>();
     public DbSet<Department> Departments => Set<Department>();
+    public DbSet<DepartmentPosition> DepartmentPositions => Set<DepartmentPosition>();
+    public DbSet<EmployeePosition> EmployeePositions => Set<EmployeePosition>();
 
     public AppDbContext(DbContextOptions options) : base(options)
     {
@@ -30,12 +33,12 @@ public class AppDbContext : DbContext, IAppDbContext
             PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("admin")
         };
         modelBuilder.Entity<User>().HasData(user);
+
         modelBuilder.Entity<UserPermission>().HasData(
-            new[] { Permit.CreateDepartment, Permit.DeleteDepartment, Permit.ReadDepartment, Permit.UpdateDepartment, Permit.CreateEmployee, Permit.DeleteEmployee, Permit.ReadEmployee, Permit.UpdateEmployee }
-                .Select(x => new
-                {
-                    UserId = user.Id,
-                    Permission = x
-                }));
+            typeof(Permit).GetFields(BindingFlags.Public | BindingFlags.Static).Select(x => new
+            {
+                UserId = user.Id,
+                Permission = x.GetValue(null) as string
+            }));
     }
 }

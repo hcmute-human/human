@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Human.Core.Features.Employees.GetEmployee;
 
-public sealed class GetEmployeeHandler : ICommandHandler<GetEmployeeCommand, Result<GetEmployeeResult>>
+public sealed class GetEmployeeHandler : ICommandHandler<GetEmployeeCommand, Result<Employee>>
 {
     private readonly IAppDbContext dbContext;
 
@@ -16,17 +16,16 @@ public sealed class GetEmployeeHandler : ICommandHandler<GetEmployeeCommand, Res
         this.dbContext = dbContext;
     }
 
-    public async Task<Result<GetEmployeeResult>> ExecuteAsync(GetEmployeeCommand command, CancellationToken ct)
+    public async Task<Result<Employee>> ExecuteAsync(GetEmployeeCommand command, CancellationToken ct)
     {
-        var result = await dbContext.Employees.Where(x => x.User.Id == command.Id).Select(x => new { User = new User { Id = x.User.Id }, Employee = x }).FirstOrDefaultAsync(ct).ConfigureAwait(false);
-        if (result is null)
+        var employee = await dbContext.Employees.Where(x => x.Id == command.Id).FirstOrDefaultAsync(ct).ConfigureAwait(false);
+        if (employee is null)
         {
             return Result.Fail("Employee does not exist")
               .WithName(nameof(command.Id))
               .WithCode("invalid_id")
               .WithStatus(HttpStatusCode.NotFound);
         }
-        result.Employee.User = result.User;
-        return result.Employee.ToResult();
+        return employee;
     }
 }

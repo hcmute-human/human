@@ -15,7 +15,7 @@ public class Base64GuidJsonConverter : JsonConverter<Guid>
     {
         if (reader.TokenType != JsonTokenType.String)
         {
-            return Guid.Empty;
+            throw new JsonException();
         }
         var span = reader.ValueSpan;
         if (Utf8Parser.TryParse(span, out Guid guid, out int bytesConsumed) && span.Length == bytesConsumed)
@@ -23,17 +23,26 @@ public class Base64GuidJsonConverter : JsonConverter<Guid>
             return guid;
         }
 
-        var value = reader.GetString();
-        if (value is null)
-        {
-            return Guid.Empty;
-        }
-
+        var value = reader.GetString() ?? throw new JsonException();
         if (Guid.TryParseExact(value, "D", out guid))
         {
             return guid;
         }
-        return new Guid(Base64UrlTextEncoder.Decode(value));
+
+        byte[] bytes;
+        try
+        {
+            bytes = Base64UrlTextEncoder.Decode(value);
+        }
+        catch
+        {
+            throw new JsonException();
+        }
+        if (bytes.Length != 16)
+        {
+            throw new JsonException();
+        }
+        return new Guid(bytes);
     }
 
     public override void Write(

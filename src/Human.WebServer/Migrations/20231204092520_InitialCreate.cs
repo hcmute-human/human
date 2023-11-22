@@ -44,6 +44,27 @@ namespace Human.WebServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DepartmentPositions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DepartmentId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    UpdatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    Name = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DepartmentPositions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DepartmentPositions_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
                 {
@@ -53,8 +74,7 @@ namespace Human.WebServer.Migrations
                     FirstName = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
                     LastName = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
                     DateOfBirth = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
-                    EmploymentType = table.Column<string>(type: "text", nullable: false),
-                    Salary = table.Column<decimal>(type: "numeric", nullable: false)
+                    Gender = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -124,25 +144,73 @@ namespace Human.WebServer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EmployeePositions",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DepartmentPositionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    UpdatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    StartTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
+                    EndTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
+                    EmploymentType = table.Column<string>(type: "text", nullable: false),
+                    Salary = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeePositions", x => new { x.EmployeeId, x.DepartmentPositionId });
+                    table.ForeignKey(
+                        name: "FK_EmployeePositions_DepartmentPositions_DepartmentPositionId",
+                        column: x => x.DepartmentPositionId,
+                        principalTable: "DepartmentPositions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmployeePositions_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash" },
-                values: new object[] { new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a"), "admin@gmail.com", "$2a$11$ck7bcL21bS2Lfh2HpwOtuexrFvpaw2huKBEQoxLNPsKFCiFO3DQJW" });
+                values: new object[] { new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"), "admin@gmail.com", "$2a$11$64yVH5hVA6oxBKOAWEdE6OV6eYlzdP86UQWNJ7ox/pOnoki.o5vc6" });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "Permission", "UserId" },
                 values: new object[,]
                 {
-                    { "create:department", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
-                    { "create:employee", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
-                    { "delete:department", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
-                    { "delete:employee", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
-                    { "read:department", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
-                    { "read:employee", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
-                    { "update:department", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") },
-                    { "update:employee", new Guid("32c17e8c-3de7-4a5f-8e11-901c00e1a96a") }
+                    { "create:department", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "create:departmentPosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "create:employee", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "create:employeePosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "delete:department", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "delete:departmentPosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "delete:employee", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "delete:employeePosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "read:department", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "read:departmentPosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "read:employee", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "read:employeePosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "update:department", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "update:departmentPosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "update:employee", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
+                    { "update:employeePosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DepartmentPositions_DepartmentId",
+                table: "DepartmentPositions",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeePositions_DepartmentPositionId",
+                table: "EmployeePositions",
+                column: "DepartmentPositionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPasswordResetTokens_UserId",
@@ -161,10 +229,7 @@ namespace Human.WebServer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Departments");
-
-            migrationBuilder.DropTable(
-                name: "Employees");
+                name: "EmployeePositions");
 
             migrationBuilder.DropTable(
                 name: "UserPasswordResetTokens");
@@ -174,6 +239,15 @@ namespace Human.WebServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserRefreshTokens");
+
+            migrationBuilder.DropTable(
+                name: "DepartmentPositions");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -12,6 +12,7 @@ public record class Employee : IAggregationRoot
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public Instant DateOfBirth { get; set; }
-    public EmploymentType EmploymentType { get; set; }
-    public decimal Salary { get; set; }
+    public Gender Gender { get; set; }
+
+    public ICollection<EmployeePosition> Positions { get; set; } = new HashSet<EmployeePosition>();
 }

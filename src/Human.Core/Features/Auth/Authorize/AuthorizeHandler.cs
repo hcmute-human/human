@@ -16,14 +16,11 @@ public sealed class AuthorizeHandler : ICommandHandler<AuthorizeCommand, Result<
 
     public async Task<Result<bool>> ExecuteAsync(AuthorizeCommand command, CancellationToken ct)
     {
-        var permissions = await dbContext.UserPermissions.Where(x => x.User.Id == command.UserId)
+        var permissions = await dbContext.UserPermissions.Where(x => x.User.Id == command.UserId && command.Permissions.Contains(x.Permission))
             .Select(x => x.Permission)
             .ToArrayAsync(cancellationToken: ct)
             .ConfigureAwait(false);
-
-        var set = permissions.ToHashSet();
-        if (!command.AllPermissions) return command.Permissions.Any(x => set.Contains(x));
-        set.SymmetricExceptWith(command.Permissions);
-        return set.Count == 0;
+        if (!command.AllPermissions) return permissions.Length > 0;
+        return permissions.Length == command.Permissions.Count;
     }
 }
