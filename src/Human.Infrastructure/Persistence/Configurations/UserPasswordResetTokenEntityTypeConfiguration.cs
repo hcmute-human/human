@@ -38,7 +38,7 @@ public sealed class UserPasswordResetTokenValueGenerator : ValueGenerator<string
 
 public sealed class UserPasswordResetTokenValueGeneratorFactory : ValueGeneratorFactory
 {
-    public override ValueGenerator Create(IProperty property, IEntityType entityType)
+    public override ValueGenerator Create(IProperty property, ITypeBase typeBase)
     {
         return new UserPasswordResetTokenValueGenerator();
     }

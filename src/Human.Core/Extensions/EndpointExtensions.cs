@@ -3,7 +3,6 @@ using System.Reflection;
 using FluentResults;
 using FluentValidation;
 using FluentValidation.Results;
-using Human.Core.Constants;
 using Human.Core.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -107,7 +106,7 @@ public sealed class CreatedAtEndpoint<TEndpoint, TValue> : IResult, IEndpointMet
         return httpContext.Response.SendCreatedAtAsync<TEndpoint>(routeValues, Value, generateAbsoluteUrl: true);
     }
 
-    public static void PopulateMetadata(MethodInfo method, EndpointBuilder builder)
+    static void IEndpointMetadataProvider.PopulateMetadata(MethodInfo method, EndpointBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(method);
         ArgumentNullException.ThrowIfNull(builder);

@@ -25,7 +25,7 @@ public sealed class GetDepartmentsHandler : ICommandHandler<GetDepartmentsComman
 
         var totalCount = await query.CountAsync(ct).ConfigureAwait(false);
         query = command.Order
-            .Where(x => x.Name.EqualsEither(new[] { "name", "createdTime" }, StringComparison.OrdinalIgnoreCase))
+            .Where(x => x.Name.EqualsEither(["name", "createdTime"], StringComparison.OrdinalIgnoreCase))
             .SortOrDefault(query, x => x.OrderBy(x => x.CreatedTime));
 
         var departments = await query
