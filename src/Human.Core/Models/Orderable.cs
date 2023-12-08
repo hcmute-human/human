@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using Human.Core.Constants;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,5 +23,12 @@ public class Orderable
         return Order == Order.Ascending
             ? query.ThenBy(x => EF.Property<T>(x, UppercasedName))
             : query.ThenByDescending(x => EF.Property<T>(x, UppercasedName));
+    }
+
+    public IOrderedQueryable<T1> Sort<T1, T2>(IQueryable<T1> query, Expression<Func<T1, T2>> expression) where T1 : notnull
+    {
+        return Order == Order.Ascending
+            ? query.OrderBy(expression)
+            : query.OrderByDescending(expression);
     }
 }

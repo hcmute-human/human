@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using System.Reflection;
 using FluentResults;
 using FluentValidation;
@@ -50,11 +51,11 @@ public static class EndpointExtensions
 
     public static Pageable Pageable(this IEndpoint endpoint)
     {
-        if (!endpoint.HttpContext.Request.Query.TryGetValue("page", out var pageStr) || !int.TryParse(pageStr.FirstOrDefault(), out var page))
+        if (!endpoint.HttpContext.Request.Query.TryGetValue("page", out var pageStr) || !int.TryParse(pageStr.FirstOrDefault(), CultureInfo.InvariantCulture, out var page))
         {
             page = 1;
         }
-        if (!endpoint.HttpContext.Request.Query.TryGetValue("size", out var sizeStr) || !int.TryParse(sizeStr.FirstOrDefault(), out var size))
+        if (!endpoint.HttpContext.Request.Query.TryGetValue("size", out var sizeStr) || !int.TryParse(sizeStr.FirstOrDefault(), CultureInfo.InvariantCulture, out var size))
         {
             size = 10;
         }

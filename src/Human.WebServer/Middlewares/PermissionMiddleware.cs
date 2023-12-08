@@ -20,14 +20,14 @@ public sealed class PermissionMiddleware
     {
         if (!context.User.Identity?.IsAuthenticated ?? true)
         {
-            await next(context);
+            await next(context).ConfigureAwait(false);
             return;
         }
 
         var id = context.User.ClaimValue(ClaimTypes.NameIdentifier);
         if (id is null || !Guid.TryParseExact(id, "D", out var guid))
         {
-            await next(context);
+            await next(context).ConfigureAwait(false);
             return;
         }
 
@@ -39,6 +39,6 @@ public sealed class PermissionMiddleware
 
         var claims = permissions.Select(x => new Claim("permissions", x));
         context.User.AddIdentity(new ClaimsIdentity(claims));
-        await next(context);
+        await next(context).ConfigureAwait(false);
     }
 }

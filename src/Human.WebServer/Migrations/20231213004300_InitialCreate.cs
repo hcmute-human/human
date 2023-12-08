@@ -29,6 +29,22 @@ namespace Human.WebServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LeaveTypes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    UpdatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    Name = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
+                    Description = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Days = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LeaveTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -110,8 +126,8 @@ namespace Human.WebServer.Migrations
                 name: "UserPermissions",
                 columns: table => new
                 {
-                    Permission = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Permission = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,32 +190,83 @@ namespace Human.WebServer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "LeaveApplications",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    UpdatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    IssuerId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LeaveTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    StartTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
+                    EndTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    ProcessorId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LeaveApplications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LeaveApplications_Employees_IssuerId",
+                        column: x => x.IssuerId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LeaveApplications_Employees_ProcessorId",
+                        column: x => x.ProcessorId,
+                        principalTable: "Employees",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_LeaveApplications_LeaveTypes_LeaveTypeId",
+                        column: x => x.LeaveTypeId,
+                        principalTable: "LeaveTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash" },
-                values: new object[] { new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084"), "admin@gmail.com", "$2a$11$64yVH5hVA6oxBKOAWEdE6OV6eYlzdP86UQWNJ7ox/pOnoki.o5vc6" });
+                values: new object[] { new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"), "admin@gmail.com", "$2a$11$mcRnYJiwQwnZ/h4LByaa8OlDWieeeSYr3B2DUdsXESVO7t.jWTZIC" });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "Permission", "UserId" },
                 values: new object[,]
                 {
-                    { "create:department", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "create:departmentPosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "create:employee", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "create:employeePosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "delete:department", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "delete:departmentPosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "delete:employee", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "delete:employeePosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "read:department", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "read:departmentPosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "read:employee", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "read:employeePosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "update:department", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "update:departmentPosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "update:employee", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") },
-                    { "update:employeePosition", new Guid("bb81a9cd-c181-4b32-a1c1-967067e85084") }
+                    { "apply:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "create:department", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "create:departmentPosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "create:employee", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "create:employeePosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "create:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "create:leaveType", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "create:userPermission", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "delete:department", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "delete:departmentPosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "delete:employee", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "delete:employeePosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "delete:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "delete:leaveType", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "delete:userPermission", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "process:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "read:department", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "read:departmentPosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "read:employee", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "read:employeePosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "read:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "read:leaveType", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "read:userPermission", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "update:department", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "update:departmentPosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "update:employee", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "update:employeePosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "update:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "update:leaveType", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
+                    { "update:userPermission", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -211,6 +278,21 @@ namespace Human.WebServer.Migrations
                 name: "IX_EmployeePositions_DepartmentPositionId",
                 table: "EmployeePositions",
                 column: "DepartmentPositionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LeaveApplications_IssuerId",
+                table: "LeaveApplications",
+                column: "IssuerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LeaveApplications_LeaveTypeId",
+                table: "LeaveApplications",
+                column: "LeaveTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LeaveApplications_ProcessorId",
+                table: "LeaveApplications",
+                column: "ProcessorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserPasswordResetTokens_UserId",
@@ -232,6 +314,9 @@ namespace Human.WebServer.Migrations
                 name: "EmployeePositions");
 
             migrationBuilder.DropTable(
+                name: "LeaveApplications");
+
+            migrationBuilder.DropTable(
                 name: "UserPasswordResetTokens");
 
             migrationBuilder.DropTable(
@@ -245,6 +330,9 @@ namespace Human.WebServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "LeaveTypes");
 
             migrationBuilder.DropTable(
                 name: "Departments");

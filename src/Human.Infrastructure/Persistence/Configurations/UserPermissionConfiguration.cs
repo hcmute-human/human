@@ -8,9 +8,9 @@ public sealed class UserPermissionConfiguration : IEntityTypeConfiguration<UserP
 {
     public void Configure(EntityTypeBuilder<UserPermission> builder)
     {
-        builder.Property<Guid>("UserId").IsRequired();
-        builder.HasKey("UserId", nameof(UserPermission.Permission));
-        builder.HasOne(x => x.User).WithMany().HasForeignKey("UserId").IsRequired();
+        builder.Property(x => x.UserId).IsRequired();
+        builder.HasKey(x => new { x.UserId, x.Permission });
+        builder.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId).IsRequired();
         builder.Navigation(x => x.User).UsePropertyAccessMode(PropertyAccessMode.Property);
 
         builder.Property(x => x.Permission).HasMaxLength(32).IsRequired();

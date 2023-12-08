@@ -8,7 +8,6 @@ public sealed class DepartmentValidator : Validator<Department>
 {
     public DepartmentValidator()
     {
-        RuleFor(x => x.Name)
-            .NotEmpty();
+        RuleFor(x => x.Name).NotEmpty();
     }
 }

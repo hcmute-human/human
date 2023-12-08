@@ -5,12 +5,12 @@ using Riok.Mapperly.Abstractions;
 
 namespace Human.WebServer.Api.V1.Auth.CreatePasswordResetToken;
 
-internal sealed class CreatePasswordResetTokenRequest
+internal sealed class Request
 {
     public required string Email { get; set; }
 }
 
-internal sealed class Validator : Validator<CreatePasswordResetTokenRequest>
+internal sealed class Validator : Validator<Request>
 {
     public Validator()
     {
@@ -23,5 +23,5 @@ internal sealed class Validator : Validator<CreatePasswordResetTokenRequest>
 [Mapper]
 internal static partial class RequestMapper
 {
-    public static partial CreatePasswordResetTokenCommand ToCommand(this CreatePasswordResetTokenRequest createPasswordResetTokenRequest);
+    public static partial CreatePasswordResetTokenCommand ToCommand(this Request createPasswordResetTokenRequest);
 }

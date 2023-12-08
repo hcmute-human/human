@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Human.WebServer.Api.V1.Auth.CreatePasswordResetToken;
 
-using Response = Results<Ok<CreatePasswordResetTokenResponse>, ProblemDetails>;
+using Response = Results<Ok<Response>, ProblemDetails>;
 
-internal sealed class Endpoint : Endpoint<CreatePasswordResetTokenRequest, Response>
+internal sealed class Endpoint : Endpoint<Request, Results<Ok<CreatePasswordResetToken.Response>, ProblemDetails>>
 {
     public override void Configure()
     {
@@ -15,7 +15,7 @@ internal sealed class Endpoint : Endpoint<CreatePasswordResetTokenRequest, Respo
         AllowAnonymous();
     }
 
-    public override async Task<Response> ExecuteAsync(CreatePasswordResetTokenRequest req, CancellationToken ct)
+    public override async Task<Results<Ok<CreatePasswordResetToken.Response>, ProblemDetails>> ExecuteAsync(Request req, CancellationToken ct)
     {
         var result = await req.ToCommand().ExecuteAsync(ct).ConfigureAwait(false);
         if (result.IsFailed)

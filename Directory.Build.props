@@ -10,5 +10,6 @@
     <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" />
     <PackageReference Include="Roslynator.Formatting.Analyzers" />
     <PackageReference Include="SonarAnalyzer.CSharp" />
+    <PackageReference Include="Meziantou.Analyzer" />
   </ItemGroup>
 </Project>

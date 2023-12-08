@@ -6,7 +6,7 @@ using Riok.Mapperly.Abstractions;
 
 namespace Human.WebServer.Api.V1.Emails.SendEmail;
 
-internal sealed class SendEmailRequest
+internal sealed class Request
 {
     public required string Subject { get; set; }
     public required string TemplateKey { get; set; }
@@ -20,7 +20,7 @@ internal sealed class SendEmailRequest
     }
 }
 
-internal sealed class Validator : Validator<SendEmailRequest>
+internal sealed class Validator : Validator<Request>
 {
     public Validator()
     {
@@ -42,5 +42,5 @@ internal sealed class Validator : Validator<SendEmailRequest>
 [Mapper]
 internal static partial class RequestMapper
 {
-    public static partial SendEmailCommand ToCommand(this SendEmailRequest request);
+    public static partial SendEmailCommand ToCommand(this Request request);
 }

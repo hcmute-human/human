@@ -17,6 +17,7 @@ public static partial class ExceptionHandlerExtensions
                 var exHandlerFeature = ctx.Features.Get<IExceptionHandlerFeature>();
                 if (exHandlerFeature is not null)
                 {
+                    Console.WriteLine(exHandlerFeature.Error);
                     logger ??= ctx.Resolve<ILogger<IExceptionHandler>>();
                     var http = exHandlerFeature.Endpoint?.DisplayName?.Split(" => ")[0];
                     var type = exHandlerFeature.Error.GetType().Name;
