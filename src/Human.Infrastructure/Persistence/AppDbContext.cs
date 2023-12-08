@@ -16,6 +16,8 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<Department> Departments => Set<Department>();
     public DbSet<DepartmentPosition> DepartmentPositions => Set<DepartmentPosition>();
     public DbSet<EmployeePosition> EmployeePositions => Set<EmployeePosition>();
+    public DbSet<LeaveType> LeaveTypes => Set<LeaveType>();
+    public DbSet<LeaveApplication> LeaveApplications => Set<LeaveApplication>();
 
     public AppDbContext(DbContextOptions options) : base(options)
     {

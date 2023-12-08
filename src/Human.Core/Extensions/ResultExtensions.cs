@@ -6,7 +6,7 @@ public static class ResultExtensions
 {
     public static Result WithName(this Result result, string name)
     {
-        result.Errors.LastOrDefault()?.Metadata.Add("name", name.ToLowerInvariant());
+        result.Errors.LastOrDefault()?.Metadata.Add("name", ToCamelCase(name));
         return result;
     }
 
@@ -21,6 +21,8 @@ public static class ResultExtensions
         result.Errors.LastOrDefault()?.Metadata.Add("statusCode", statusCode);
         return result;
     }
+
+    public static string ToCamelCase(string text) => string.Concat(char.ToLowerInvariant(text[0]).ToString(), text.AsSpan(1));
 }
 
 public static class ErrorExtensions

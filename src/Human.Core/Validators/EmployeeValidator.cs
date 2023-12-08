@@ -8,11 +8,8 @@ public sealed class EmployeeValidator : Validator<Employee>
 {
     public EmployeeValidator()
     {
-        RuleFor(x => x.FirstName)
-            .NotEmpty();
-        RuleFor(x => x.LastName)
-            .NotEmpty();
-        RuleFor(x => x.DateOfBirth)
-            .NotEmpty();
+        RuleFor(x => x.FirstName).NotEmpty();
+        RuleFor(x => x.LastName).NotEmpty();
+        RuleFor(x => x.DateOfBirth).NotEmpty();
     }
 }

@@ -14,6 +14,8 @@ public interface IAppDbContext
     DbSet<Department> Departments { get; }
     DbSet<DepartmentPosition> DepartmentPositions { get; }
     DbSet<EmployeePosition> EmployeePositions { get; }
+    DbSet<LeaveType> LeaveTypes { get; }
+    DbSet<LeaveApplication> LeaveApplications { get; }
 
     EntityEntry Attach(object entity);
     EntityEntry Add(object entity);

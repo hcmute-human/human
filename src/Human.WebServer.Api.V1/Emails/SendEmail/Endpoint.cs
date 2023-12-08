@@ -5,7 +5,7 @@ namespace Human.WebServer.Api.V1.Emails.SendEmail;
 
 using Response = Results<Ok<SendEmailResponse>, ProblemDetails>;
 
-internal sealed class Endpoint : Endpoint<SendEmailRequest, Response>
+internal sealed class Endpoint : Endpoint<Request, Response>
 {
     public override void Configure()
     {
@@ -14,7 +14,7 @@ internal sealed class Endpoint : Endpoint<SendEmailRequest, Response>
         Version(1);
     }
 
-    public override async Task<Response> ExecuteAsync(SendEmailRequest req, CancellationToken ct)
+    public override async Task<Response> ExecuteAsync(Request req, CancellationToken ct)
     {
         var result = await req.ToCommand().ExecuteAsync(ct).ConfigureAwait(false);
         if (result.IsFailed)

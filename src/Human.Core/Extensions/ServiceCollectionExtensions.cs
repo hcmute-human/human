@@ -14,6 +14,7 @@ public static class ServiceCollectionExtensions
         self.AddSingleton<IEmailTemplateRenderer, HtmlEmailTemplateRenderer>();
         self.AddSingleton<IValidator<Department>, DepartmentValidator>();
         self.AddSingleton<IValidator<Employee>, EmployeeValidator>();
+        self.AddSingleton<IValidator<LeaveApplication>, LeaveApplicationValidator>();
         return self;
     }
 }
