@@ -2,10 +2,14 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using FastEndpoints;
 using FastEndpoints.Security;
+using Human.Core.Constants;
 using Human.Core.Models;
+using Human.Domain.Models;
 using Human.Infrastructure.Models;
 using Human.WebServer.Converters;
+using Human.WebServer.Handlers;
 using Human.WebServer.Middlewares;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Options;
 using NodaTime;
@@ -87,7 +91,11 @@ public static class Program
                 options.ValidAudience = null;
                 options.ValidAudiences = bearerOptions.ValidAudiences;
             });
-        services.AddAuthorization();
+
+        services.AddAuthorizationBuilder()
+            .AddPolicy(AppPolicies.LeaveApplication.Read, x => x.Requirements.Add(new ReadLeaveApplicationAuthorizationRequirement()));
+        services.AddSingleton<IAuthorizationHandler, ReadLeaveApplicationAuthorizationHandler>();
+        services.AddScoped<IAuthorizationHandler, IsLeaveApplicationIssuerAuthorizationHandler>();
 
         var resourceSection = configuration.GetRequiredSection(ResourceOptions.Section);
         var resourceOptions = resourceSection.Get<ResourceOptions>()!;

@@ -1,20 +1,13 @@
 ﻿using System.Security.Claims;
-using FastEndpoints;
 using FastEndpoints.Security;
 using Human.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace Human.WebServer.Middlewares;
 
-public sealed class PermissionMiddleware
+public sealed class PermissionMiddleware(RequestDelegate next)
 {
-    private readonly RequestDelegate next;
-
-    public PermissionMiddleware(RequestDelegate next)
-    {
-        this.next = next;
-    }
+    private readonly RequestDelegate next = next;
 
     public async Task InvokeAsync(HttpContext context, AppDbContext dbContext)
     {
@@ -24,8 +17,14 @@ public sealed class PermissionMiddleware
             return;
         }
 
+        // if (context.GetEndpoint()?.Metadata.OfType<AuthorizeAttribute>().All(x => string.IsNullOrEmpty(x.Policy)) ?? true)
+        // {
+        //     await next(context).ConfigureAwait(false);
+        //     return;
+        // }
+
         var id = context.User.ClaimValue(ClaimTypes.NameIdentifier);
-        if (id is null || !Guid.TryParseExact(id, "D", out var guid))
+        if (!Guid.TryParseExact(id, "D", out var guid))
         {
             await next(context).ConfigureAwait(false);
             return;
