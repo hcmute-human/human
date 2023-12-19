@@ -19,7 +19,7 @@ public sealed class UpdateLeaveApplicationHandler : ICommandHandler<UpdateLeaveA
 
     public async Task<Result<LeaveApplication>> ExecuteAsync(UpdateLeaveApplicationCommand command, CancellationToken ct)
     {
-        if (await dbContext.LeaveApplications.AnyAsync(x => x.IssuerId == command.IssuerId && x.StartTime <= command.EndTime && x.EndTime >= command.StartTime, ct).ConfigureAwait(false))
+        if (await dbContext.LeaveApplications.AnyAsync(x => x.Id != command.Id && x.IssuerId == command.IssuerId && x.StartTime <= command.EndTime && x.EndTime >= command.StartTime, ct).ConfigureAwait(false))
         {
             return Result
                 .Fail("Time of leave already exists")

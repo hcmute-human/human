@@ -11,6 +11,7 @@ using Results = Results<Ok<Response>, ProblemDetails, ForbidHttpResult>;
 internal sealed class Endpoint(IAuthorizationService authorizationService) : Endpoint<Request, Results>
 {
     private readonly IAuthorizationService authorizationService = authorizationService;
+
     public override void Configure()
     {
         Get("leave-applications/{Id}");
@@ -20,13 +21,10 @@ internal sealed class Endpoint(IAuthorizationService authorizationService) : End
 
     public override async Task<Results> ExecuteAsync(Request request, CancellationToken ct)
     {
-        if (!request.HasReadPermission)
+        var authorizationResult = await authorizationService.AuthorizeAsync(User, new LeaveApplication { Id = request.Id }, AppPolicies.LeaveApplication.Read).ConfigureAwait(false);
+        if (!authorizationResult.Succeeded)
         {
-            var authorizationResult = await authorizationService.AuthorizeAsync(User, new LeaveApplication { Id = request.Id }, AppPolicies.LeaveApplication.Read).ConfigureAwait(false);
-            if (!authorizationResult.Succeeded)
-            {
-                return TypedResults.Forbid();
-            }
+            return TypedResults.Forbid();
         }
 
         var result = await request.ToCommand().ExecuteAsync(ct).ConfigureAwait(false);

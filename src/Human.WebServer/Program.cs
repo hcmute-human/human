@@ -92,10 +92,7 @@ public static class Program
                 options.ValidAudiences = bearerOptions.ValidAudiences;
             });
 
-        services.AddAuthorizationBuilder()
-            .AddPolicy(AppPolicies.LeaveApplication.Read, x => x.Requirements.Add(new ReadLeaveApplicationAuthorizationRequirement()));
-        services.AddSingleton<IAuthorizationHandler, ReadLeaveApplicationAuthorizationHandler>();
-        services.AddScoped<IAuthorizationHandler, IsLeaveApplicationIssuerAuthorizationHandler>();
+        services.AddAppAuthorization();
 
         var resourceSection = configuration.GetRequiredSection(ResourceOptions.Section);
         var resourceOptions = resourceSection.Get<ResourceOptions>()!;

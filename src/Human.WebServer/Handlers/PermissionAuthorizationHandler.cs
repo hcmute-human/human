@@ -4,15 +4,14 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Human.WebServer.Handlers;
 
-public class ReadLeaveApplicationAuthorizationHandler :
-    AuthorizationHandler<ReadLeaveApplicationAuthorizationRequirement, LeaveApplication>
+public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement, LeaveApplication>
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        ReadLeaveApplicationAuthorizationRequirement requirement,
+        PermissionRequirement requirement,
         LeaveApplication resource)
     {
-        if (context.User.HasClaim(x => x.Type.Equals("permissions", StringComparison.Ordinal) && x.Value.Equals(Permit.ReadLeaveApplication, StringComparison.Ordinal)))
+        if (context.User.HasClaim(x => x.Type.Equals("permissions", StringComparison.Ordinal) && x.Value.Equals(requirement.Permission, StringComparison.Ordinal)))
         {
             context.Succeed(requirement);
         }

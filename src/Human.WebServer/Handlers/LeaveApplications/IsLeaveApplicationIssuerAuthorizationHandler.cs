@@ -5,16 +5,16 @@ using Human.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
-namespace Human.WebServer.Handlers;
+namespace Human.WebServer.Handlers.LeaveApplications;
 
 public class IsLeaveApplicationIssuerAuthorizationHandler(IAppDbContext dbContext) :
-    AuthorizationHandler<ReadLeaveApplicationAuthorizationRequirement, LeaveApplication>
+    AuthorizationHandler<ReadLeaveApplicationRequirement, LeaveApplication>
 {
     private readonly IAppDbContext dbContext = dbContext;
 
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        ReadLeaveApplicationAuthorizationRequirement requirement,
+        ReadLeaveApplicationRequirement requirement,
         LeaveApplication resource)
     {
         if (Guid.TryParseExact(context.User.ClaimValue(ClaimTypes.NameIdentifier), "D", out var guid)

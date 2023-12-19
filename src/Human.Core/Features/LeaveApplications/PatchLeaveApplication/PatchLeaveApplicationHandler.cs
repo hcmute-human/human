@@ -50,7 +50,7 @@ public sealed class PatchLeaveApplicationHandler(IAppDbContext dbContext, IValid
                 .WithStatus(HttpStatusCode.BadRequest)));
         }
 
-        if (await dbContext.LeaveApplications.AnyAsync(x => x.IssuerId == leaveApplication.IssuerId && x.StartTime <= leaveApplication.EndTime && x.EndTime >= leaveApplication.StartTime, ct).ConfigureAwait(false))
+        if (await dbContext.LeaveApplications.AnyAsync(x => x.Id != leaveApplication.Id && x.IssuerId == leaveApplication.IssuerId && x.StartTime <= leaveApplication.EndTime && x.EndTime >= leaveApplication.StartTime, ct).ConfigureAwait(false))
         {
             return Result
                 .Fail("Time of leave already exists")
