@@ -274,10 +274,10 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            Id = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             CreatedTime = NodaTime.Instant.FromUnixTimeTicks(0L),
                             Email = "admin@gmail.com",
-                            PasswordHash = "$2a$11$mcRnYJiwQwnZ/h4LByaa8OlDWieeeSYr3B2DUdsXESVO7t.jWTZIC",
+                            PasswordHash = "$2a$11$ezh73pXFAvxtg1kM7zcfFO6XeaZSEOUQ1F1yiWEi1kHOgh7Oycg2q",
                             UpdatedTime = NodaTime.Instant.FromUnixTimeTicks(0L)
                         });
                 });
@@ -318,152 +318,172 @@ namespace Human.WebServer.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
+                            Permission = "create:user"
+                        },
+                        new
+                        {
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
+                            Permission = "read:user"
+                        },
+                        new
+                        {
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
+                            Permission = "update:user"
+                        },
+                        new
+                        {
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
+                            Permission = "delete:user"
+                        },
+                        new
+                        {
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "create:userPermission"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "read:userPermission"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "update:userPermission"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "delete:userPermission"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "create:department"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "read:department"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "update:department"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "delete:department"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "create:employee"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "read:employee"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "update:employee"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "delete:employee"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "create:departmentPosition"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "read:departmentPosition"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "update:departmentPosition"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "delete:departmentPosition"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "create:employeePosition"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "read:employeePosition"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "update:employeePosition"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "delete:employeePosition"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "create:leaveType"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "read:leaveType"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "update:leaveType"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "delete:leaveType"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "create:leaveApplication"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "read:leaveApplication"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "update:leaveApplication"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "delete:leaveApplication"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "apply:leaveApplication"
                         },
                         new
                         {
-                            UserId = new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"),
+                            UserId = new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"),
                             Permission = "process:leaveApplication"
                         });
                 });
@@ -551,6 +571,37 @@ namespace Human.WebServer.Migrations
                     b.Navigation("LeaveType");
 
                     b.Navigation("Processor");
+                });
+
+            modelBuilder.Entity("Human.Domain.Models.User", b =>
+                {
+                    b.OwnsOne("Human.Domain.Models.AssetInfo", "Avatar", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Format")
+                                .IsRequired()
+                                .HasMaxLength(12)
+                                .HasColumnType("character varying(12)");
+
+                            b1.Property<string>("Key")
+                                .IsRequired()
+                                .HasMaxLength(256)
+                                .HasColumnType("character varying(256)");
+
+                            b1.Property<long>("Version")
+                                .HasColumnType("bigint");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.Navigation("Avatar");
                 });
 
             modelBuilder.Entity("Human.Domain.Models.UserPasswordResetToken", b =>

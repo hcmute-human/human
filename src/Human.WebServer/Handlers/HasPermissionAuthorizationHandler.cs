@@ -1,15 +1,12 @@
-using Human.Domain.Constants;
-using Human.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Human.WebServer.Handlers;
 
-public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement, LeaveApplication>
+public class HasPermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
 {
     protected override Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
-        PermissionRequirement requirement,
-        LeaveApplication resource)
+        PermissionRequirement requirement)
     {
         if (context.User.HasClaim(x => x.Type.Equals("permissions", StringComparison.Ordinal) && x.Value.Equals(requirement.Permission, StringComparison.Ordinal)))
         {

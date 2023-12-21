@@ -27,6 +27,7 @@ public static class ServiceCollectionExtensions
         });
         self.AddScoped<IAppDbContext>(x => x.GetRequiredService<AppDbContext>());
         self.AddSingleton<ISmtpService, GmailSmtpService>();
+        self.AddSingleton<IAssetService, AssetService>();
         return self;
     }
 }

@@ -52,7 +52,10 @@ namespace Human.WebServer.Migrations
                     CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
                     UpdatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
                     Email = table.Column<string>(type: "character varying(261)", maxLength: 261, nullable: false),
-                    PasswordHash = table.Column<string>(type: "character varying(61)", maxLength: 61, nullable: false)
+                    PasswordHash = table.Column<string>(type: "character varying(61)", maxLength: 61, nullable: false),
+                    Avatar_Key = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Avatar_Format = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: true),
+                    Avatar_Version = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -230,43 +233,47 @@ namespace Human.WebServer.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash" },
-                values: new object[] { new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f"), "admin@gmail.com", "$2a$11$mcRnYJiwQwnZ/h4LByaa8OlDWieeeSYr3B2DUdsXESVO7t.jWTZIC" });
+                values: new object[] { new Guid("3078c072-e745-49cd-846f-f860cbf6aa68"), "admin@gmail.com", "$2a$11$ezh73pXFAvxtg1kM7zcfFO6XeaZSEOUQ1F1yiWEi1kHOgh7Oycg2q" });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "Permission", "UserId" },
                 values: new object[,]
                 {
-                    { "apply:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "create:department", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "create:departmentPosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "create:employee", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "create:employeePosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "create:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "create:leaveType", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "create:userPermission", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "delete:department", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "delete:departmentPosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "delete:employee", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "delete:employeePosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "delete:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "delete:leaveType", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "delete:userPermission", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "process:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "read:department", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "read:departmentPosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "read:employee", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "read:employeePosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "read:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "read:leaveType", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "read:userPermission", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "update:department", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "update:departmentPosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "update:employee", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "update:employeePosition", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "update:leaveApplication", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "update:leaveType", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") },
-                    { "update:userPermission", new Guid("47df33f3-f0e3-4105-ba8b-faa2f6fb126f") }
+                    { "apply:leaveApplication", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "create:department", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "create:departmentPosition", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "create:employee", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "create:employeePosition", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "create:leaveApplication", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "create:leaveType", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "create:user", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "create:userPermission", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "delete:department", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "delete:departmentPosition", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "delete:employee", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "delete:employeePosition", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "delete:leaveApplication", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "delete:leaveType", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "delete:user", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "delete:userPermission", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "process:leaveApplication", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "read:department", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "read:departmentPosition", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "read:employee", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "read:employeePosition", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "read:leaveApplication", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "read:leaveType", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "read:user", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "read:userPermission", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "update:department", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "update:departmentPosition", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "update:employee", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "update:employeePosition", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "update:leaveApplication", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "update:leaveType", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "update:user", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") },
+                    { "update:userPermission", new Guid("3078c072-e745-49cd-846f-f860cbf6aa68") }
                 });
 
             migrationBuilder.CreateIndex(

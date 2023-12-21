@@ -9,4 +9,5 @@ public record class User : IAggregationRoot
     public Instant UpdatedTime { get; set; }
     public string Email { get; set; } = null!;
     public string PasswordHash { get; set; } = null!;
+    public AssetInfo? Avatar { get; set; }
 }
