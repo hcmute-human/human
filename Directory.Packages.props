@@ -18,7 +18,6 @@
     <PackageVersion Include="Microsoft.Extensions.Identity.Core" Version="8.0.0" />
     <PackageVersion Include="Riok.Mapperly" Version="3.3.0" />
     <PackageVersion Include="Bogus" Version="34.0.2" />
-    <PackageVersion Include="CloudinaryDotNet" Version="1.22.0" />
     <PackageVersion Include="SystemTextJsonPatch" Version="3.1.0" />
     <PackageVersion Include="Nito.AsyncEx" Version="5.1.2" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
@@ -28,6 +27,7 @@
     <PackageVersion Include="MailKit" Version="4.3.0" />
     <PackageVersion Include="RazorLight" Version="2.3.1" />
     <PackageVersion Include="NodaTime.Serialization.SystemTextJson" Version="1.1.2" />
+    <PackageVersion Include="CloudinaryDotNet" Version="1.24.0" />
   </ItemGroup>
 
   <ItemGroup>

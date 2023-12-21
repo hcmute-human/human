@@ -16,5 +16,4 @@
     <ProjectReference Include="../Human.Infrastructure/Human.Infrastructure.csproj" />
   </ItemGroup>
 
-
 </Project>

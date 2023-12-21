@@ -5,6 +5,10 @@ namespace Human.Domain.Constants;
 
 public static class Permit
 {
+    public const string CreateUser = "create:user";
+    public const string ReadUser = "read:user";
+    public const string UpdateUser = "update:user";
+    public const string DeleteUser = "delete:user";
     public const string CreateUserPermission = "create:userPermission";
     public const string ReadUserPermission = "read:userPermission";
     public const string UpdateUserPermission = "update:userPermission";

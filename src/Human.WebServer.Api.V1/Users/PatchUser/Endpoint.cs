@@ -4,25 +4,23 @@ using Human.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace Human.WebServer.Api.V1.LeaveApplications.GetLeaveApplication;
+namespace Human.WebServer.Api.V1.Users.PatchUser;
 
-using Results = Results<Ok<Response>, ProblemDetails, ForbidHttpResult>;
+using Results = Results<NoContent, ProblemDetails, ForbidHttpResult>;
 
 internal sealed class Endpoint(IAuthorizationService authorizationService) : Endpoint<Request, Results>
 {
-    private readonly IAuthorizationService authorizationService = authorizationService;
-
     public override void Configure()
     {
-        Get("leave-applications/{Id}");
-        Verbs(Http.GET);
+        Patch("users/{Id}");
+        Verbs(Http.PATCH);
         Version(1);
     }
 
     public override async Task<Results> ExecuteAsync(Request request, CancellationToken ct)
     {
-        var authorizationResult = await authorizationService.AuthorizeAsync(User, new LeaveApplication { Id = request.Id }, AppPolicies.LeaveApplications.Read).ConfigureAwait(false);
-        if (!authorizationResult.Succeeded)
+        var authResult = await authorizationService.AuthorizeAsync(User, new User { Id = request.Id }, AppPolicies.Users.Update).ConfigureAwait(false);
+        if (!authResult.Succeeded)
         {
             return TypedResults.Forbid();
         }
@@ -32,6 +30,6 @@ internal sealed class Endpoint(IAuthorizationService authorizationService) : End
         {
             return this.ProblemDetails(result.Errors);
         }
-        return TypedResults.Ok(result.Value.ToResponse());
+        return TypedResults.NoContent();
     }
 }

@@ -1,8 +1,10 @@
 using System.Reflection;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Human.Core.Constants;
+using Human.Core.Interfaces;
 using Human.Core.Models;
 using Human.Domain.Models;
 using Human.Infrastructure.Models;
@@ -28,6 +30,7 @@ public static class Program
         Configure(builder.Services, builder.Configuration);
 
         var app = builder.Build();
+        JsonSerializerOptionsDependencyInjection.ServiceProvider = app.Services;
 
         app.UseProblemDetailsExceptionHandler();
         app.UseStatusCodePages();
@@ -54,6 +57,7 @@ public static class Program
         services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new JsonPatchDocumentConverterFactory()));
         services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new Base64GuidJsonConverter()));
         services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new OrderableArrayJsonConverter()));
+        // services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new AssetInfoJsonConverter()));
         services.Configure<JsonOptions>(x => x.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
         services.AddProblemDetails();
         services.AddFastEndpoints(x =>
@@ -116,6 +120,12 @@ public static class Program
         services
             .AddOptions<SmtpOptions>()
             .BindConfiguration(SmtpOptions.Section)
+            .ValidateOnStart()
+            .ValidateDataAnnotations();
+
+        services
+            .AddOptions<CloudinaryOptions>()
+            .BindConfiguration(CloudinaryOptions.Section)
             .ValidateOnStart()
             .ValidateDataAnnotations();
 
