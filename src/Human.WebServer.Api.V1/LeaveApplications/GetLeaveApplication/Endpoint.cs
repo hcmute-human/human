@@ -21,8 +21,8 @@ internal sealed class Endpoint(IAuthorizationService authorizationService) : End
 
     public override async Task<Results> ExecuteAsync(Request request, CancellationToken ct)
     {
-        var authorizationResult = await authorizationService.AuthorizeAsync(User, new LeaveApplication { Id = request.Id }, AppPolicies.LeaveApplications.Read).ConfigureAwait(false);
-        if (!authorizationResult.Succeeded)
+        var authResult = await authorizationService.AuthorizeAsync(User, new LeaveApplication { Id = request.Id }, AppPolicies.LeaveApplications.Read).ConfigureAwait(false);
+        if (!authResult.Succeeded)
         {
             return TypedResults.Forbid();
         }

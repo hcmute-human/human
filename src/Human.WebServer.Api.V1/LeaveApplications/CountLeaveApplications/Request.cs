@@ -2,6 +2,9 @@
 using Riok.Mapperly.Abstractions;
 using Human.Core.Features.LeaveApplications.GetLeaveApplications;
 using Human.Core.Models;
+using FastEndpoints;
+using System.Security.Claims;
+using Human.Domain.Constants;
 
 namespace Human.WebServer.Api.V1.LeaveApplications.CountLeaveApplications;
 
@@ -14,6 +17,11 @@ internal sealed class Request : Collective
     public bool? IncludeLeaveType { get; set; }
     public Guid? DepartmentId { get; set; }
     public bool CountOnly => true;
+
+    [FromClaim(ClaimTypes.NameIdentifier)]
+    public Guid UserId { get; }
+    [HasPermission(Permit.ReadEmployeePosition, IsRequired = false)]
+    public bool HasReadPermission { get; }
 }
 
 [Mapper]

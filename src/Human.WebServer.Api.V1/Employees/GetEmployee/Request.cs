@@ -8,14 +8,14 @@ namespace Human.WebServer.Api.V1.Employees.GetEmployee;
 
 internal sealed class Request
 {
-    public Guid? Id { get; set; }
+    public Guid Id { get; set; }
 }
 
 internal sealed class RequestValidator : Validator<Request>
 {
     public RequestValidator()
     {
-        RuleFor(x => x.Id).NotEmpty();
+        RuleFor(x => x.Id).NotNull();
     }
 }
 

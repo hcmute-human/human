@@ -5,13 +5,13 @@ using Human.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
-namespace Human.WebServer.Handlers.LeaveApplications;
+namespace Human.WebServer.Handlers.DepartmentPositions;
 
-public class IsIssuerAuthorizationHandler(IAppDbContext dbContext) : IAuthorizationHandler
+public class DoesEmployeeHasPositionAuthorizationHandler(IAppDbContext dbContext) : IAuthorizationHandler
 {
     public async Task HandleAsync(AuthorizationHandlerContext context)
     {
-        if (context.Resource is not LeaveApplication leaveApplication)
+        if (context.Resource is not DepartmentPosition departmentPosition)
         {
             return;
         }
@@ -25,11 +25,12 @@ public class IsIssuerAuthorizationHandler(IAppDbContext dbContext) : IAuthorizat
             }
 
             any ??= Guid.TryParseExact(context.User.ClaimValue(ClaimTypes.NameIdentifier), "D", out var guid)
-                && await dbContext.LeaveApplications.AnyAsync(x => x.Id == leaveApplication.Id && x.IssuerId == guid).ConfigureAwait(false);
+                && await dbContext.EmployeePositions.AnyAsync(x => x.EmployeeId == guid && x.DepartmentPositionId == departmentPosition.Id).ConfigureAwait(false);
             if (any == true)
             {
                 context.Succeed(requirement);
             }
         }
+        return;
     }
 }

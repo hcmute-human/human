@@ -8,15 +8,8 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace Human.Core.Features.EmployeePositions.GetEmployeePositions;
 
-public sealed class GetEmployeePositionsHandler : ICommandHandler<GetEmployeePositionsCommand, Result<GetEmployeePositionsResult>>
+public sealed class GetEmployeePositionsHandler(IAppDbContext dbContext) : ICommandHandler<GetEmployeePositionsCommand, Result<GetEmployeePositionsResult>>
 {
-    private readonly IAppDbContext dbContext;
-
-    public GetEmployeePositionsHandler(IAppDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
-
     public async Task<Result<GetEmployeePositionsResult>> ExecuteAsync(GetEmployeePositionsCommand command, CancellationToken ct)
     {
         var query = dbContext.EmployeePositions.Where(x => x.EmployeeId == command.EmployeeId);
@@ -45,7 +38,7 @@ public sealed class GetEmployeePositionsHandler : ICommandHandler<GetEmployeePos
         return new GetEmployeePositionsResult
         {
             TotalCount = totalCount,
-            Items = positions
+            Items = positions,
         };
     }
 }

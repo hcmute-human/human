@@ -8,19 +8,10 @@ namespace Human.WebServer.Api.V1.EmployeePositions.GetEmployeePosition;
 
 internal sealed class Request : Collective
 {
-    public Guid? EmployeeId { get; set; }
-    public Guid? DepartmentPositionId { get; set; }
+    public required Guid EmployeeId { get; set; }
+    public required Guid DepartmentPositionId { get; set; }
     public bool? IncludeDepartment { get; set; }
     public bool? IncludeDepartmentPosition { get; set; }
-}
-
-internal sealed class RequestValidator : Validator<Request>
-{
-    public RequestValidator()
-    {
-        RuleFor(x => x.EmployeeId).NotNull();
-        RuleFor(x => x.DepartmentPositionId).NotNull();
-    }
 }
 
 [Mapper]

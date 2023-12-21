@@ -37,7 +37,7 @@ REASON: {error}
 
                     ctx.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     ctx.Response.ContentType = "application/problem+json";
-                    await TypedResults.Problem(detail: error, statusCode: ctx.Response.StatusCode).ExecuteAsync(ctx);
+                    await TypedResults.Problem(detail: error, statusCode: ctx.Response.StatusCode).ExecuteAsync(ctx).ConfigureAwait(false);
                 }
             });
         });
