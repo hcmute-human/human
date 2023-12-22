@@ -7,4 +7,5 @@ namespace Human.Core.Features.Departments.GetDepartments;
 public class GetDepartmentsCommand : Collective, ICommand<Result<GetDepartmentsResult>>
 {
     public string? Name { get; set; }
+    public Guid? EmployeeId { get; set; }
 }

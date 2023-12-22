@@ -4,6 +4,7 @@ using Human.WebServer.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Users = Human.WebServer.Handlers.Users;
 using UserPermissions = Human.WebServer.Handlers.UserPermissions;
+using Departments = Human.WebServer.Handlers.Departments;
 using DepartmentPositions = Human.WebServer.Handlers.DepartmentPositions;
 using Employees = Human.WebServer.Handlers.Employees;
 using EmployeePositions = Human.WebServer.Handlers.EmployeePositions;
@@ -30,6 +31,13 @@ public static class ServiceCollectionExtensions
 
         authorizationBuilder.AddPolicy(AppPolicies.EmployeePositions.Read, x => x.Requirements.Add(new EmployeePositions.ReadRequirement(Permit.ReadEmployeePosition)));
         services.AddScoped<IAuthorizationHandler, EmployeePositions.IsSameEmployeeAndHasPositionAuthorizationHandler>();
+
+        authorizationBuilder.AddPolicy(AppPolicies.Departments.Read, x => x.Requirements.Add(new Departments.ReadRequirement(Permit.ReadDepartment)));
+        services.AddScoped<IAuthorizationHandler, Departments.IsEmployeeInDepartmentAuthorizationHandler>();
+
+        authorizationBuilder.AddPolicy(AppPolicies.DepartmentPositions.Read, x => x.Requirements.Add(new DepartmentPositions.ReadRequirement(Permit.ReadDepartmentPosition)));
+        services.AddScoped<IAuthorizationHandler, DepartmentPositions.IsEmployeeInDepartmentAuthorizationHandler>();
+        services.AddScoped<IAuthorizationHandler, DepartmentPositions.DoesEmployeeHasPositionAuthorizationHandler>();
 
         authorizationBuilder.AddPolicy(AppPolicies.LeaveApplications.Read, x => x.Requirements.Add(new LeaveApplications.ReadRequirement(Permit.ReadLeaveApplication)));
         services.AddScoped<IAuthorizationHandler, LeaveApplications.IsIssuerAuthorizationHandler>();

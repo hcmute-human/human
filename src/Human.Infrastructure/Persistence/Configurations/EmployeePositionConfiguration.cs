@@ -13,7 +13,7 @@ public sealed class EmployeePositionConfiguration : IEntityTypeConfiguration<Emp
         builder.HasKey(x => new { x.EmployeeId, x.DepartmentPositionId });
         builder.HasOne(x => x.Employee).WithMany(x => x.Positions).HasForeignKey(x => x.EmployeeId);
         builder.Navigation(x => x.Employee).UsePropertyAccessMode(PropertyAccessMode.Property);
-        builder.HasOne(x => x.DepartmentPosition).WithMany().HasForeignKey(x => x.DepartmentPositionId);
+        builder.HasOne(x => x.DepartmentPosition).WithMany(x => x.EmployeePositions).HasForeignKey(x => x.DepartmentPositionId);
         builder.Navigation(x => x.DepartmentPosition).UsePropertyAccessMode(PropertyAccessMode.Property);
         builder.Property(x => x.CreatedTime).ValueGeneratedOnAdd().HasDefaultValueSql("current_timestamp");
         builder.Property(x => x.UpdatedTime).ValueGeneratedOnAdd().HasDefaultValueSql("current_timestamp");

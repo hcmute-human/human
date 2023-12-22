@@ -42,6 +42,7 @@ public static class Program
         {
             var options = app.Services.GetRequiredService<IOptions<ApiOptions>>().Value;
             x.Errors.UseProblemDetails();
+            x.Security.PermissionsClaimType = "permissions";
             x.Endpoints.RoutePrefix = options.RoutePrefix;
             x.Binding.ValueParserFor<Guid>(Base64GuidJsonConverter.ValueParser);
             x.Binding.ValueParserFor<Guid?>(Base64GuidJsonConverter.ValueParser);

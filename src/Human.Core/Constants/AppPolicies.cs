@@ -11,6 +11,14 @@ public static class AppPolicies
     {
         public const string Read = "ReadUserPermission";
     }
+    public static class Departments
+    {
+        public const string Read = "ReadDepartmentPolicy";
+    }
+    public static class DepartmentPositions
+    {
+        public const string Read = "ReadDepartmentPositionPolicy";
+    }
     public static class Employees
     {
         public const string Read = "ReadEmployee";

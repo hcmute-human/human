@@ -10,4 +10,6 @@ public record class DepartmentPosition : IAggregationRoot
     public Instant CreatedTime { get; set; }
     public Instant UpdatedTime { get; set; }
     public string Name { get; set; } = null!;
+
+    public ICollection<EmployeePosition> EmployeePositions { get; set; } = null!;
 }

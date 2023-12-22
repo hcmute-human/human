@@ -8,4 +8,6 @@ public record class Department : IAggregationRoot
     public Instant CreatedTime { get; set; }
     public Instant UpdatedTime { get; set; }
     public string Name { get; set; } = null!;
+
+    public ICollection<DepartmentPosition> Positions { get; set; } = null!;
 }

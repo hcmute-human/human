@@ -19,9 +19,9 @@ internal sealed class Request : Collective
     public bool CountOnly => true;
 
     [FromClaim(ClaimTypes.NameIdentifier)]
-    public Guid UserId { get; }
-    [HasPermission(Permit.ReadEmployeePosition, IsRequired = false)]
-    public bool HasReadPermission { get; }
+    public Guid UserId { get; set; }
+    [HasPermission(Permit.ReadLeaveApplication, IsRequired = false)]
+    public bool HasReadPermission { get; set; }
 }
 
 [Mapper]

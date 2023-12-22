@@ -7,18 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Human.Core.Features.Employees.GetEmployees;
 
-public sealed class GetEmployeesHandler : ICommandHandler<GetEmployeesCommand, Result<GetEmployeesResult>>
+public sealed class GetEmployeesHandler(IAppDbContext dbContext) : ICommandHandler<GetEmployeesCommand, Result<GetEmployeesResult>>
 {
-    private readonly IAppDbContext dbContext;
-
-    public GetEmployeesHandler(IAppDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
-
     public async Task<Result<GetEmployeesResult>> ExecuteAsync(GetEmployeesCommand command, CancellationToken ct)
     {
         var query = dbContext.Employees.AsQueryable();
+        if (command.Id is not null)
+        {
+            query = query.Where(x => x.Id == command.Id);
+        }
         if (!string.IsNullOrEmpty(command.FirstName))
         {
             query = query.Where(x => x.FirstName.Contains(command.FirstName));

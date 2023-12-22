@@ -22,6 +22,10 @@ public sealed class GetDepartmentsHandler : ICommandHandler<GetDepartmentsComman
         {
             query = query.Where(x => x.Name.Contains(command.Name));
         }
+        if (command.EmployeeId is not null)
+        {
+            query = query.Where(x => x.Positions.Any(x => x.EmployeePositions.Any(x => x.EmployeeId == command.EmployeeId)));
+        }
 
         var totalCount = await query.CountAsync(ct).ConfigureAwait(false);
         query = command.Order
