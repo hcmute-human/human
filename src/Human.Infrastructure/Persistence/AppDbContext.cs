@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Human.Infrastructure.Persistence;
 
-public class AppDbContext : DbContext, IAppDbContext
+public class AppDbContext(DbContextOptions options) : DbContext(options), IAppDbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<Employee> Employees => Set<Employee>();
@@ -18,10 +18,7 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<EmployeePosition> EmployeePositions => Set<EmployeePosition>();
     public DbSet<LeaveType> LeaveTypes => Set<LeaveType>();
     public DbSet<LeaveApplication> LeaveApplications => Set<LeaveApplication>();
-
-    public AppDbContext(DbContextOptions options) : base(options)
-    {
-    }
+    public DbSet<Holiday> Holidays => Set<Holiday>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,15 +29,14 @@ public class AppDbContext : DbContext, IAppDbContext
         {
             Id = Guid.NewGuid(),
             Email = "admin@gmail.com",
-            PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("admin")
+            PasswordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("admin"),
         };
         modelBuilder.Entity<User>().HasData(user);
-
         modelBuilder.Entity<UserPermission>().HasData(
             typeof(Permit).GetFields(BindingFlags.Public | BindingFlags.Static).Select(x => new
             {
                 UserId = user.Id,
-                Permission = x.GetValue(null) as string
+                Permission = x.GetValue(null) as string,
             }));
     }
 }

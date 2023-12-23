@@ -29,6 +29,22 @@ namespace Human.WebServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Holidays",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    UpdatedTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false, defaultValueSql: "current_timestamp"),
+                    Name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    StartTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
+                    EndTime = table.Column<Instant>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Holidays", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LeaveTypes",
                 columns: table => new
                 {
@@ -233,47 +249,51 @@ namespace Human.WebServer.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash" },
-                values: new object[] { new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f"), "admin@gmail.com", "$2a$11$3pvpjARf7ZlxGNHXja/uqucqrt4xdKJUR44W1T8Lceazax1P6.cj." });
+                values: new object[] { new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42"), "admin@gmail.com", "$2a$11$GuaYcbYF58aYCWVReg8eEOwamqwpKCbZFTav4eqg2UCBkTsfzpKxi" });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "Permission", "UserId" },
                 values: new object[,]
                 {
-                    { "apply:leaveApplication", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "create:department", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "create:departmentPosition", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "create:employee", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "create:employeePosition", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "create:leaveApplication", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "create:leaveType", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "create:user", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "create:userPermission", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "delete:department", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "delete:departmentPosition", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "delete:employee", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "delete:employeePosition", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "delete:leaveApplication", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "delete:leaveType", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "delete:user", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "delete:userPermission", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "process:leaveApplication", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "read:department", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "read:departmentPosition", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "read:employee", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "read:employeePosition", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "read:leaveApplication", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "read:leaveType", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "read:user", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "read:userPermission", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "update:department", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "update:departmentPosition", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "update:employee", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "update:employeePosition", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "update:leaveApplication", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "update:leaveType", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "update:user", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") },
-                    { "update:userPermission", new Guid("ce24d891-6c5a-41df-8f6b-8ce993652b5f") }
+                    { "apply:leaveApplication", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "create:department", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "create:departmentPosition", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "create:employee", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "create:employeePosition", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "create:holiday", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "create:leaveApplication", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "create:leaveType", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "create:user", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "create:userPermission", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "delete:department", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "delete:departmentPosition", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "delete:employee", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "delete:employeePosition", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "delete:holiday", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "delete:leaveApplication", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "delete:leaveType", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "delete:user", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "delete:userPermission", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "process:leaveApplication", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "read:department", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "read:departmentPosition", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "read:employee", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "read:employeePosition", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "read:holiday", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "read:leaveApplication", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "read:leaveType", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "read:user", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "read:userPermission", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "update:department", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "update:departmentPosition", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "update:employee", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "update:employeePosition", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "update:holiday", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "update:leaveApplication", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "update:leaveType", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "update:user", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") },
+                    { "update:userPermission", new Guid("3efd475d-b7ee-4f04-bcbe-59b2ae089f42") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -319,6 +339,9 @@ namespace Human.WebServer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "EmployeePositions");
+
+            migrationBuilder.DropTable(
+                name: "Holidays");
 
             migrationBuilder.DropTable(
                 name: "LeaveApplications");

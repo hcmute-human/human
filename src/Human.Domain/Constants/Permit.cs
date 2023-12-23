@@ -39,6 +39,10 @@ public static class Permit
     public const string DeleteLeaveApplication = "delete:leaveApplication";
     public const string ApplyForLeave = "apply:leaveApplication";
     public const string ProcessLeaveApplication = "process:leaveApplication";
+    public const string CreateHoliday = "create:holiday";
+    public const string ReadHoliday = "read:holiday";
+    public const string UpdateHoliday = "update:holiday";
+    public const string DeleteHoliday = "delete:holiday";
 
     public static ImmutableHashSet<string> AllPermissions { get; } = typeof(Permit).GetFields(BindingFlags.Public | BindingFlags.Static).Select(x => x.GetValue(null)).Cast<string>().ToImmutableHashSet();
 }

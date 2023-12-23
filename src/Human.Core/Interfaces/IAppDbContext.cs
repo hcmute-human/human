@@ -16,6 +16,7 @@ public interface IAppDbContext
     DbSet<EmployeePosition> EmployeePositions { get; }
     DbSet<LeaveType> LeaveTypes { get; }
     DbSet<LeaveApplication> LeaveApplications { get; }
+    DbSet<Holiday> Holidays { get; }
 
     EntityEntry Attach(object entity);
     EntityEntry Add(object entity);

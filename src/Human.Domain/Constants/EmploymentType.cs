@@ -5,5 +5,7 @@ public enum EmploymentType : byte
     None,
     FullTime,
     PartTime,
-    Internship
+    Temporary,
+    Seasonal,
+    Leased
 }
