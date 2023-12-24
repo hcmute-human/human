@@ -18,11 +18,11 @@ public sealed class GetEmployeesHandler(IAppDbContext dbContext) : ICommandHandl
         }
         if (!string.IsNullOrEmpty(command.FirstName))
         {
-            query = query.Where(x => x.FirstName.Contains(command.FirstName));
+            query = query.Where(x => EF.Functions.ILike(x.FirstName, '%' + command.FirstName + '%'));
         }
         if (!string.IsNullOrEmpty(command.LastName))
         {
-            query = query.Where(x => x.LastName.Contains(command.LastName));
+            query = query.Where(x => EF.Functions.ILike(x.LastName, '%' + command.LastName + '%'));
         }
         if (command.DepartmentId is not null)
         {

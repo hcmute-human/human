@@ -20,7 +20,7 @@ public sealed class GetDepartmentsHandler : ICommandHandler<GetDepartmentsComman
         var query = dbContext.Departments.AsQueryable();
         if (!string.IsNullOrEmpty(command.Name))
         {
-            query = query.Where(x => x.Name.Contains(command.Name));
+            query = query.Where(x => EF.Functions.ILike(x.Name, '%' + command.Name + '%'));
         }
         if (command.EmployeeId is not null)
         {

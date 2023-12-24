@@ -18,7 +18,7 @@ internal sealed class Validator : Validator<Request>
     {
         RuleFor(x => x.Permission)
             .NotEmpty()
-            .Must(x => Permit.AllPermissions.Contains(x!));
+            .Must(x => Permit.AllPermissions.Contains(x!, StringComparer.Ordinal));
     }
 }
 

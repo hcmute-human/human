@@ -20,11 +20,11 @@ public sealed class GetLeaveApplicationsHandler(IAppDbContext dbContext) : IComm
         }
         if (!string.IsNullOrEmpty(command.IssuerName))
         {
-            query = query.Where(x => (x.Issuer.FirstName + ' ' + x.Issuer.LastName).Contains(command.IssuerName));
+            query = query.Where(x => EF.Functions.ILike(x.Issuer.FirstName + ' ' + x.Issuer.LastName, '%' + command.IssuerName + '%'));
         }
-        if (!string.IsNullOrEmpty(command.AcquirerName))
+        if (!string.IsNullOrEmpty(command.ProcessorName))
         {
-            query = query.Where(x => x.ProcessorId != null && (x.Processor!.FirstName + ' ' + x.Processor!.LastName).Contains(command.AcquirerName));
+            query = query.Where(x => x.ProcessorId != null && EF.Functions.ILike(x.Processor!.FirstName + ' ' + x.Processor!.LastName, '%' + command.ProcessorName + '%'));
         }
         if (command.DepartmentId is not null)
         {

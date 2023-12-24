@@ -15,7 +15,7 @@ public sealed class GetUserPermissionsHandler(IAppDbContext dbContext) : IComman
         var query = dbContext.UserPermissions.Where(x => x.User.Id == command.UserId);
         if (!string.IsNullOrEmpty(command.Permission))
         {
-            query = query.Where(x => x.Permission.Contains(command.Permission));
+            query = query.Where(x => EF.Functions.ILike(x.Permission, '%' + command.Permission + '%'));
         }
 
         var totalCount = await query.CountAsync(ct).ConfigureAwait(false);

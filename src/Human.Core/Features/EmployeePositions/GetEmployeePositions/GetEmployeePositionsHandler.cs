@@ -15,11 +15,11 @@ public sealed class GetEmployeePositionsHandler(IAppDbContext dbContext) : IComm
         var query = dbContext.EmployeePositions.Where(x => x.EmployeeId == command.EmployeeId);
         if (!string.IsNullOrEmpty(command.Name))
         {
-            query = query.Where(x => x.DepartmentPosition.Name.Contains(command.Name));
+            query = query.Where(x => EF.Functions.ILike(x.DepartmentPosition.Name, '%' + command.Name + '%'));
         }
         if (!string.IsNullOrEmpty(command.DepartmentName))
         {
-            query = query.Where(x => x.DepartmentPosition.Department.Name.Contains(command.DepartmentName));
+            query = query.Where(x => EF.Functions.ILike(x.DepartmentPosition.Department.Name, '%' + command.DepartmentName + '%'));
         }
         query = (command.IncludeDepartment, command.IncludeDepartmentPosition) switch
         {

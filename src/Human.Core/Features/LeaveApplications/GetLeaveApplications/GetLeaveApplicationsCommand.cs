@@ -8,7 +8,7 @@ public class GetLeaveApplicationsCommand : Collective, ICommand<Result<GetLeaveA
 {
     public Guid? IssuerId { get; set; }
     public string? IssuerName { get; set; }
-    public string? AcquirerName { get; set; }
+    public string? ProcessorName { get; set; }
     public bool? IncludeIssuer { get; set; }
     public bool? IncludeLeaveType { get; set; }
     public Guid? DepartmentId { get; set; }

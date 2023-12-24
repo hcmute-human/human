@@ -24,7 +24,7 @@ public sealed class GetDepartmentPositionsHandler : ICommandHandler<GetDepartmen
         }
         if (!string.IsNullOrEmpty(command.Name))
         {
-            query = query.Where(x => x.Name.Contains(command.Name));
+            query = query.Where(x => EF.Functions.ILike(x.Name, '%' + command.Name + '%'));
         }
 
         var totalCount = await query.CountAsync(ct).ConfigureAwait(false);
