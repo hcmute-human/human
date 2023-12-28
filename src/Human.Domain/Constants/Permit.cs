@@ -43,6 +43,14 @@ public static class Permit
     public const string ReadHoliday = "read:holiday";
     public const string UpdateHoliday = "update:holiday";
     public const string DeleteHoliday = "delete:holiday";
+    public const string CreateJob = "create:job";
+    public const string ReadJob = "read:job";
+    public const string UpdateJob = "update:job";
+    public const string DeleteJob = "delete:job";
+    public const string CreateTest = "create:test";
+    public const string ReadTest = "read:test";
+    public const string UpdateTest = "update:test";
+    public const string DeleteTest = "delete:test";
 
     public static ImmutableHashSet<string> AllPermissions { get; } = typeof(Permit).GetFields(BindingFlags.Public | BindingFlags.Static).Select(x => x.GetValue(null)).Cast<string>().ToImmutableHashSet();
 }

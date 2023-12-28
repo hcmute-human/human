@@ -5,7 +5,7 @@
   <ItemGroup>
     <PackageVersion Include="FastEndpoints" Version="5.20.1" />
     <PackageVersion Include="FastEndpoints.Security" Version="5.20.1" />
-    <PackageVersion Include="NodaTime" Version="3.1.9" />
+    <PackageVersion Include="NodaTime" Version="3.1.10" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
@@ -47,11 +47,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.15.0.81779">
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.16.0.82469">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.123">
+    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.127">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageVersion>

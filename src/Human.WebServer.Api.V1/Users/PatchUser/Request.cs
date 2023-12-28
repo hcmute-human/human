@@ -12,7 +12,7 @@ internal sealed class Request
     public Guid Id { get; set; }
     public JsonPatchDocument<Payload>? Patch { get; set; }
 
-    public class Payload
+    public sealed class Payload
     {
         public AssetInfo? Avatar { get; set; }
     }

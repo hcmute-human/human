@@ -20,7 +20,7 @@ public sealed class LeaveApplicationConfiguration : IEntityTypeConfiguration<Lea
         builder.HasOne(x => x.LeaveType).WithMany().HasForeignKey(x => x.LeaveTypeId).IsRequired();
         builder.Property(x => x.StartTime).IsRequired();
         builder.Property(x => x.EndTime).IsRequired();
-        builder.Property(x => x.Status).HasConversion<EnumToStringConverter<LeaveApplicationStatus>>().IsRequired();
+        builder.Property(x => x.Status).HasConversion<EnumToStringConverter<LeaveApplicationStatus>>().HasMaxLength(16);
         builder.Property(x => x.Description).HasMaxLength(128);
         builder.Property(x => x.ProcessorId);
         builder.HasOne(x => x.Processor).WithMany().HasForeignKey(x => x.ProcessorId);

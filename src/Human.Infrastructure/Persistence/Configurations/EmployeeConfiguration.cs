@@ -18,6 +18,6 @@ public sealed class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         builder.Property(x => x.FirstName).HasMaxLength(32).IsRequired();
         builder.Property(x => x.LastName).HasMaxLength(32).IsRequired();
         builder.Property(x => x.DateOfBirth).IsRequired();
-        builder.Property(x => x.Gender).IsRequired().HasConversion<EnumToStringConverter<Gender>>();
+        builder.Property(x => x.Gender).IsRequired().HasConversion<EnumToStringConverter<Gender>>().HasMaxLength(8);
     }
 }

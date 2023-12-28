@@ -19,6 +19,10 @@ public class AppDbContext(DbContextOptions options) : DbContext(options), IAppDb
     public DbSet<LeaveType> LeaveTypes => Set<LeaveType>();
     public DbSet<LeaveApplication> LeaveApplications => Set<LeaveApplication>();
     public DbSet<Holiday> Holidays => Set<Holiday>();
+    public DbSet<Job> Jobs => Set<Job>();
+    public DbSet<Test> Tests => Set<Test>();
+    public DbSet<JobApplication> JobApplications => Set<JobApplication>();
+    public DbSet<Question> Questions => Set<Question>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -22,7 +22,7 @@ internal sealed class Request
     [HasPermission(Permit.ProcessLeaveApplication, IsRequired = false)]
     public bool CanProcess { get; set; }
 
-    public class Payload
+    public sealed class Payload
     {
         public Guid IssuerId { get; set; }
         public Guid LeaveTypeId { get; set; }

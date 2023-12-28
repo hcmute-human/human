@@ -1,17 +1,11 @@
 using System.Reflection;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using FastEndpoints;
 using FastEndpoints.Security;
-using Human.Core.Constants;
-using Human.Core.Interfaces;
 using Human.Core.Models;
-using Human.Domain.Models;
 using Human.Infrastructure.Models;
 using Human.WebServer.Converters;
-using Human.WebServer.Handlers;
 using Human.WebServer.Middlewares;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.Options;
 using NodaTime;

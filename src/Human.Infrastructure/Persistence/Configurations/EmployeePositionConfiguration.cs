@@ -19,7 +19,7 @@ public sealed class EmployeePositionConfiguration : IEntityTypeConfiguration<Emp
         builder.Property(x => x.UpdatedTime).ValueGeneratedOnAdd().HasDefaultValueSql("current_timestamp");
         builder.Property(x => x.StartTime).IsRequired();
         builder.Property(x => x.EndTime).IsRequired();
-        builder.Property(x => x.EmploymentType).HasConversion<EnumToStringConverter<EmploymentType>>().IsRequired();
+        builder.Property(x => x.EmploymentType).HasConversion<EnumToStringConverter<EmploymentType>>().HasMaxLength(16);
         builder.Property(x => x.Salary).IsRequired();
     }
 }

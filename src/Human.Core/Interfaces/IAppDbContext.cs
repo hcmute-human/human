@@ -17,6 +17,10 @@ public interface IAppDbContext
     DbSet<LeaveType> LeaveTypes { get; }
     DbSet<LeaveApplication> LeaveApplications { get; }
     DbSet<Holiday> Holidays { get; }
+    DbSet<Job> Jobs { get; }
+    DbSet<Test> Tests { get; }
+    DbSet<JobApplication> JobApplications { get; }
+    DbSet<Question> Questions { get; }
 
     EntityEntry Attach(object entity);
     EntityEntry Add(object entity);
