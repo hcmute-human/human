@@ -8,6 +8,7 @@ public sealed class TextChoiceConfiguration : IEntityTypeConfiguration<TextChoic
 {
     public void Configure(EntityTypeBuilder<TextChoice> builder)
     {
+        builder.ToTable("TextChoices");
         builder.Property(x => x.Text);
     }
 }

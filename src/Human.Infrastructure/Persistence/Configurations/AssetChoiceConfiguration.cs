@@ -8,6 +8,7 @@ public sealed class AssetChoiceConfiguration : IEntityTypeConfiguration<AssetCho
 {
     public void Configure(EntityTypeBuilder<AssetChoice> builder)
     {
+        builder.ToTable("AssetChoices");
         builder.OwnsOne(x => x.Asset, x =>
         {
             x.Property(x => x.Key).HasMaxLength(256).IsRequired();

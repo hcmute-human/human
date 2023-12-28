@@ -354,7 +354,7 @@ namespace Human.WebServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AssetChoice",
+                name: "AssetChoices",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -365,9 +365,9 @@ namespace Human.WebServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AssetChoice", x => x.Id);
+                    table.PrimaryKey("PK_AssetChoices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AssetChoice_Questions_QuestionId",
+                        name: "FK_AssetChoices_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id",
@@ -375,7 +375,7 @@ namespace Human.WebServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TextChoice",
+                name: "TextChoices",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -384,9 +384,9 @@ namespace Human.WebServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TextChoice", x => x.Id);
+                    table.PrimaryKey("PK_TextChoices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TextChoice_Questions_QuestionId",
+                        name: "FK_TextChoices_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "Id",
@@ -396,64 +396,64 @@ namespace Human.WebServer.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "PasswordHash" },
-                values: new object[] { new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b"), "admin@gmail.com", "$2a$11$4XKW1SK4sqRG20ia.o7/0us84OAfktyfds56h4a3VudHOxuoFTg0u" });
+                values: new object[] { new Guid("3f9122e9-7073-425a-946f-016294da23cf"), "admin@gmail.com", "$2a$11$.VrCQkb9NgrHQFQSsGBY/OHLf7dO6laanq0mN3CM9RCjAznNg9boO" });
 
             migrationBuilder.InsertData(
                 table: "UserPermissions",
                 columns: new[] { "Permission", "UserId" },
                 values: new object[,]
                 {
-                    { "apply:leaveApplication", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:department", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:departmentPosition", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:employee", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:employeePosition", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:holiday", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:job", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:leaveApplication", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:leaveType", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:test", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:user", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "create:userPermission", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:department", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:departmentPosition", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:employee", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:employeePosition", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:holiday", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:job", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:leaveApplication", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:leaveType", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:test", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:user", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "delete:userPermission", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "process:leaveApplication", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:department", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:departmentPosition", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:employee", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:employeePosition", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:holiday", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:job", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:leaveApplication", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:leaveType", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:test", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:user", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "read:userPermission", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:department", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:departmentPosition", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:employee", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:employeePosition", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:holiday", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:job", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:leaveApplication", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:leaveType", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:test", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:user", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") },
-                    { "update:userPermission", new Guid("8fb8797f-cb7c-4997-a7e2-6e5502f4261b") }
+                    { "apply:leaveApplication", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:department", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:departmentPosition", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:employee", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:employeePosition", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:holiday", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:job", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:leaveApplication", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:leaveType", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:test", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:user", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "create:userPermission", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:department", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:departmentPosition", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:employee", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:employeePosition", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:holiday", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:job", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:leaveApplication", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:leaveType", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:test", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:user", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "delete:userPermission", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "process:leaveApplication", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:department", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:departmentPosition", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:employee", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:employeePosition", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:holiday", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:job", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:leaveApplication", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:leaveType", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:test", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:user", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "read:userPermission", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:department", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:departmentPosition", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:employee", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:employeePosition", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:holiday", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:job", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:leaveApplication", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:leaveType", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:test", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:user", new Guid("3f9122e9-7073-425a-946f-016294da23cf") },
+                    { "update:userPermission", new Guid("3f9122e9-7073-425a-946f-016294da23cf") }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssetChoice_QuestionId",
-                table: "AssetChoice",
+                name: "IX_AssetChoices_QuestionId",
+                table: "AssetChoices",
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
@@ -517,8 +517,8 @@ namespace Human.WebServer.Migrations
                 column: "JobId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TextChoice_QuestionId",
-                table: "TextChoice",
+                name: "IX_TextChoices_QuestionId",
+                table: "TextChoices",
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
@@ -538,7 +538,7 @@ namespace Human.WebServer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AssetChoice");
+                name: "AssetChoices");
 
             migrationBuilder.DropTable(
                 name: "EmployeePositions");
@@ -553,7 +553,7 @@ namespace Human.WebServer.Migrations
                 name: "LeaveApplications");
 
             migrationBuilder.DropTable(
-                name: "TextChoice");
+                name: "TextChoices");
 
             migrationBuilder.DropTable(
                 name: "UserPasswordResetTokens");
