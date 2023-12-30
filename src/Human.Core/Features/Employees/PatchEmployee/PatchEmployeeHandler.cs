@@ -9,17 +9,8 @@ using SystemTextJsonPatch.Exceptions;
 
 namespace Human.Core.Features.Employees.PatchEmployee;
 
-public sealed class PatchEmployeeHandler : ICommandHandler<PatchEmployeeCommand, Result<Employee>>
+public sealed class PatchEmployeeHandler(IAppDbContext dbContext, IValidator<Employee> validator) : ICommandHandler<PatchEmployeeCommand, Result<Employee>>
 {
-    private readonly IAppDbContext dbContext;
-    private readonly IValidator<Employee> validator;
-
-    public PatchEmployeeHandler(IAppDbContext dbContext, IValidator<Employee> validator)
-    {
-        this.dbContext = dbContext;
-        this.validator = validator;
-    }
-
     public async Task<Result<Employee>> ExecuteAsync(PatchEmployeeCommand command, CancellationToken ct)
     {
         var employee = await dbContext.Employees
@@ -35,7 +26,7 @@ public sealed class PatchEmployeeHandler : ICommandHandler<PatchEmployeeCommand,
                 .WithStatus(HttpStatusCode.NotFound);
         }
 
-        var employeePatch = new EmployeePatch { FirstName = employee.FirstName, LastName = employee.LastName, DateOfBirth = employee.DateOfBirth };
+        var employeePatch = employee.ToPatch();
         try
         {
             command.Patch.ApplyTo(employeePatch);
@@ -49,7 +40,7 @@ public sealed class PatchEmployeeHandler : ICommandHandler<PatchEmployeeCommand,
         }
 
         employeePatch.ApplyTo(employee);
-        var validation = validator.Validate(employee);
+        var validation = await validator.ValidateAsync(employee, ct).ConfigureAwait(false);
         if (!validation.IsValid)
         {
             return Result.Fail(validation.Errors.Select(x => new Error(x.ErrorMessage)

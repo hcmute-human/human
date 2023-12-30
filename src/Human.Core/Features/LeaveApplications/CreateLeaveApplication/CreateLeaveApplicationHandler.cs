@@ -4,18 +4,12 @@ using FluentResults;
 using Human.Core.Interfaces;
 using Human.Domain.Models;
 using Microsoft.EntityFrameworkCore;
+using NodaTime;
 
 namespace Human.Core.Features.LeaveApplications.CreateLeaveApplication;
 
-public sealed class CreateLeaveApplicationHandler : ICommandHandler<CreateLeaveApplicationCommand, Result<LeaveApplication>>
+public sealed class CreateLeaveApplicationHandler(IAppDbContext dbContext) : ICommandHandler<CreateLeaveApplicationCommand, Result<LeaveApplication>>
 {
-    private readonly IAppDbContext dbContext;
-
-    public CreateLeaveApplicationHandler(IAppDbContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
-
     public async Task<Result<LeaveApplication>> ExecuteAsync(CreateLeaveApplicationCommand command, CancellationToken ct)
     {
         if (!await dbContext.Employees.AnyAsync(x => x.Id == command.IssuerId, ct).ConfigureAwait(false))
@@ -36,6 +30,30 @@ public sealed class CreateLeaveApplicationHandler : ICommandHandler<CreateLeaveA
                 .WithError("Time of leave already exists")
                 .WithName(nameof(command.EndTime))
                 .WithCode("duplicated_time")
+                .WithStatus(HttpStatusCode.BadRequest);
+        }
+
+        var leaveType = await dbContext.LeaveTypes.FirstOrDefaultAsync(x => x.Id == command.LeaveTypeId, ct).ConfigureAwait(false);
+        if (leaveType is null)
+        {
+            return Result.Fail("Leave type not found")
+                .WithName(nameof(command.LeaveTypeId))
+                .WithCode("not_found")
+                .WithStatus(HttpStatusCode.BadRequest);
+        }
+
+        var leavingHours = (command.EndTime - command.StartTime).TotalDays * 8;
+        var leftHours = await dbContext.LeaveApplications.Where(x => x.IssuerId == command.IssuerId && x.CreatedTime.InUtc().Year == SystemClock.Instance.GetCurrentInstant().InUtc().Year).SumAsync(x => (x.EndTime - x.StartTime).TotalDays, ct).ConfigureAwait(false) * 8;
+        if (leavingHours + leftHours > leaveType.Days * 8)
+        {
+            return Result
+                .Fail("Exceeding leave type days limit")
+                .WithName(nameof(command.StartTime))
+                .WithCode("exceeding_limit")
+                .WithStatus(HttpStatusCode.BadRequest)
+                .WithError("Exceeding leave type days limit")
+                .WithName(nameof(command.EndTime))
+                .WithCode("exceeding_limit")
                 .WithStatus(HttpStatusCode.BadRequest);
         }
 

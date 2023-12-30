@@ -26,6 +26,7 @@ public static class Program
         var app = builder.Build();
         JsonSerializerOptionsDependencyInjection.ServiceProvider = app.Services;
 
+        app.MapHealthChecks("/health");
         app.UseProblemDetailsExceptionHandler();
         app.UseStatusCodePages();
         app.UseAuthentication();
@@ -54,6 +55,7 @@ public static class Program
         services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new OrderableArrayJsonConverter()));
         // services.Configure<JsonOptions>(x => x.SerializerOptions.Converters.Add(new AssetInfoJsonConverter()));
         services.Configure<JsonOptions>(x => x.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+        services.AddHealthChecks();
         services.AddProblemDetails();
         services.AddFastEndpoints(x =>
         {

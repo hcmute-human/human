@@ -1,8 +1,6 @@
 using FastEndpoints;
 using FluentResults;
 using Human.Domain.Models;
-using NodaTime;
-using Riok.Mapperly.Abstractions;
 using SystemTextJsonPatch;
 
 namespace Human.Core.Features.Users.PatchUser;
